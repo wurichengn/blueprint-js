@@ -11,14 +11,16 @@ class MouseDragArgs {
   scale = 1;
   /** 要侦听的按钮 */
   button = 0;
+  /** 要侦听事件的ref，如果没有会自动创建 */
+  ref = null;
 }
 
 /**
  * 添加一个鼠标拖动功能
  * @param {MouseDragArgs} cfg 功能参数
  */
-export var useMouseDrag = function(cfg) {
-  var ref = useRef();
+export var useMouseDrag = function(cfg = {}) {
+  var ref = cfg.ref || useRef();
 
   // 绑定事件
   useEffect(() => {

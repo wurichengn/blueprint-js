@@ -1,5 +1,6 @@
 import { configure } from 'mobx';
-import { useLocalStore, useObserver } from 'mobx-react';
+import { useLocalObservable, useObserver } from 'mobx-react';
+import { useRef } from 'react';
 import { Program } from '../main';
 import { useMouseDrag } from './hooks/hook-event';
 import { StoreMap } from './stores/store-app';
@@ -13,9 +14,11 @@ configure({ enforceActions: false });
  */
 export var UIMap = (props) => {
   /** 视图的状态 */
-  var state = useLocalStore(() => { return new StoreMap(props.program); });
-  /** 绑定鼠标拖动功能 */
-  var ref = useMouseDrag({ position: state.position });
+  var state = useLocalObservable(() => { return new StoreMap(props.program); });
+  /** 根节点的ref */
+  var ref = useRef();
+  // 触发渲染钩子
+  props.program.hooks.trigger('map-render', { ref: ref, state: state });
 
   return useObserver(() => {
     return <div ref={ref} style={{ backgroundPosition: `${state.position.x}px ${state.position.y}px` }} className={Styles.Map} />;
