@@ -27,11 +27,13 @@ export class Program {
 
   /** 类型定义表 */
   types = {};
-  /** 节点逻辑定义表 */
+  /** @type {{[key:string]:typeof BluePrintNode}} 节点逻辑定义表 */
   modules = {};
 
-  /** 当前程序里的所有节点 */
+  /** @type {BluePrintNode[]} 当前程序里的所有节点 */
   nodes = [];
+  /** @type {{[key:string]:BluePrintNode}} 当前程序里所有节点的uid映射表 */
+  nodesMap = {};
 
   /**
    * 往程序中添加一个类型定义
@@ -54,7 +56,18 @@ export class Program {
     if (this.modules[key]) {
       console.warn(`覆盖了已经定义的节点逻辑[${key}]`);
     }
-    this.types[key] = module;
+    this.modules[key] = module;
+  }
+
+  /**
+   * 向当前程序中添加一个节点
+   * @param {BluePrintNode} node 要添加的节点实例
+   */
+  addNode(node) {
+    this.nodes.push(node);
+    this.nodesMap[node.uid] = node;
+    // 触发添加节点处理
+    this.hooks.trigger('map-add-node', { node, program: this });
   }
 }
 

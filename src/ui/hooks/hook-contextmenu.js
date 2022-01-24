@@ -24,6 +24,7 @@ export var useContextMenu = function(cfg) {
 
     // 事件侦听
     config.ref.current.addEventListener('contextmenu', async e => {
+      lastEvent = e;
       await initMenu();
       e.preventDefault();
       var menuData = await config.menuData();
@@ -35,9 +36,14 @@ export var useContextMenu = function(cfg) {
   });
 };
 
+// =======================菜单组件的实现===========================
+
 /** @type {ContextMenuState} 全局公用菜单状态 */
 var globalState;
+/** @type {HTMLElement} 全局公用容器 */
 var globalDiv;
+/** @type {MouseEvent} 最后的右键点击事件 */
+var lastEvent;
 
 /** 初始化菜单 */
 var initMenu = function() {
@@ -46,6 +52,7 @@ var initMenu = function() {
   return new Promise((next) => {
     /** 全局公用菜单容器 */
     globalDiv = document.createElement('div');
+    globalDiv.oncontextmenu = e => { e.preventDefault(); };
     document.body.appendChild(globalDiv);
     // 初始化全局状态
     globalState = new ContextMenuState();
@@ -67,7 +74,7 @@ var ContextMenu = function(props) {
 
     // 点击其他位置关闭菜单
     var click = e => {
-      if (!isChild(ref.current, e.target)) {
+      if (!isChild(globalDiv, e.target)) {
         state.menus = null;
       }
     };
@@ -105,7 +112,7 @@ var ContextMenu = function(props) {
       if (item.length < 2 || typeof item[1] === 'function') {
         return <div className={Styles.item} key={index} onClick={(item.length > 1) ? () => {
           globalState.menus = null;
-          item[1]();
+          item[1]({ event: lastEvent });
         } : null}
         onMouseOver={e => {
           state.subState = null;

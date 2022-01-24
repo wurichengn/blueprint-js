@@ -1,12 +1,32 @@
-import { BluePrintInputDefine } from './define-node';
+import { UUID } from '../utils/utils-base';
+import { BluePrintInputDefine, BluePrintOutputDefine } from './define-node';
 import { BluePrintHooks } from './hooks';
+import { Program } from './program';
 
 /** 蓝图节点逻辑定义 */
 export class BluePrintNode {
   /**
+   * @param {Program} program 节点所属的程序
+   */
+  constructor(program) {
+    this.program = program;
+    // 钩子转发
+    this.hooks.all((e, type) => {
+      e = e || {};
+      e.node = this;
+      this.program.hooks.trigger(type, e);
+    });
+  }
+
+  /**
    * @type {()=>{}|Promise<any>} 运行的逻辑，可以是异步函数
    **/
   run() {};
+
+  /** 唯一编号 */
+  uid = UUID();
+  /** @type {Program} 节点所属的程序 */
+  program;
 
   /** 当前节点的钩子 */
   hooks = new BluePrintHooks();
@@ -17,11 +37,28 @@ export class BluePrintNode {
   attrs = new NodeAttrs();
 
   /**
+   * 定义属性，仅用于代码提示
+   * @param {NodeDefine} define
+   * @returns
+   */
+  $define(define) { return define; }
+
+  /**
    * 设置节点定义
    * @param {NodeDefine} define
    */
   setDefine(define) {
     this.define = define;
+  }
+
+  /** 获取实例名称 */
+  getNodeName() {
+    if (this.define.name) return this.define.name;
+    if (this.constructor.menu) {
+      var menu = this.constructor.menu;
+      return menu.substr(menu.lastIndexOf('/') + 1);
+    }
+    return this.constructor.name;
   }
 
   /** @type {string} 节点所在菜单 */
@@ -39,7 +76,7 @@ export class NodeDefine {
   name = '未命名节点';
   /** @type {{[key:string]:BluePrintInputDefine}} 输入的定义 */
   inputs = {};
-  /** @type {{[]}} 输出的定义 */
+  /** @type {{[key:string]:BluePrintOutputDefine}} 输出的定义 */
   outputs = {};
 }
 

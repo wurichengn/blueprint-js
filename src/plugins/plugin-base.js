@@ -13,18 +13,19 @@ export var PluginBase = function(program) {
 
 /** 加法 */
 class MathAdd extends BluePrintNode {
-  constructor() {
-    super();
-    /** 设置定义 */
-    this.setDefine({
-      inputs: {
-        'a': { name: 'A', type: 'number' },
-        'b': { name: 'B', type: 'number' }
-      }
-    });
-  }
+  static menu = '数学/加法运算';
 
   run(props) {
     return props.a + props.b;
   }
+
+  define = this.$define({
+    inputs: {
+      'a': { name: 'A', type: 'number' },
+      'b': { name: 'B', type: 'number' }
+    },
+    outputs: {
+      'num': { name: '数值', type: 'number', default: true }
+    }
+  })
 }
