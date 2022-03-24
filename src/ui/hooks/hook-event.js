@@ -81,3 +81,18 @@ export var useMouseDrag = function(cfg = {}) {
 
   return ref;
 };
+
+/**
+ * 侦听全局事件
+ * @param {keyof DocumentEventMap} event 要侦听的事件
+ * @param {(e:MouseEvent|KeyboardEvent)=>{}} callback 回调函数
+ * @param {HTMLElement} target 要侦听的目标
+ */
+export var useDomEvent = function(event, callback, target = document) {
+  useEffect(() => {
+    target.addEventListener(event, callback);
+    return () => {
+      target.removeEventListener(event, callback);
+    };
+  });
+};

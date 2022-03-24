@@ -25,7 +25,8 @@ class MathAdd extends BluePrintNode {
       'b': { name: 'B', type: 'number' }
     },
     outputs: {
-      'num': { name: '数值', type: 'number', default: true }
+      'num': { name: '数值', type: 'number', default: true },
+      'num2': { name: '数值', type: 'number', default: true }
     }
   })
 }

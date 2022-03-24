@@ -61,6 +61,11 @@ export class BluePrintNode {
     return this.constructor.name;
   }
 
+  /** 运行一次该节点 */
+  runNode() {
+
+  }
+
   /** @type {string} 节点所在菜单 */
   static menu;
 }
@@ -88,7 +93,7 @@ class NodeAttrs {
   y = 0;
   /** 从编辑器获得的输入值 */
   forms = {};
-  /** 当前节点输入关联的组件 */
+  /** @type {{[key:string]:LinkData|LinkData[]}} 当前节点输入关联的组件 */
   links = {};
   /** 当前节点关联输入的值 */
   link_values = {};
@@ -96,4 +101,12 @@ class NodeAttrs {
   inputs = {};
   /** 当前节点输出的值 */
   outputs = {};
+}
+
+/** 关联信息数据 */
+class LinkData {
+  /** @type {string} 对应的输出组件的uid */
+  uid;
+  /** 对应的输出接口 */
+  key;
 }

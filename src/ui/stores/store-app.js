@@ -28,6 +28,8 @@ export class StoreMap {
   refOrigin;
   /** 视图原点屏幕坐标 */
   @observable viewOrigin = { x: 0, y: 0 };
+  /** 当前鼠标在视图中的坐标 */
+  @observable mousePosition = { x: 0, y: 0 };
 
   /** @type {StoreNode[]} 节点状态列表 */
   @observable nodes = [];
@@ -39,7 +41,7 @@ export class StoreMap {
     y: 0
   };
 
-  /** @type {{type:string,pos:{x:number,y:number}}} 正在操作中的操作点 */
+  /** @type {{type:string,pos:{x:number,y:number},key:string,node:StoreNode}} 正在操作中的操作点 */
   @observable actionPointer;
 
   /**
@@ -52,5 +54,23 @@ export class StoreMap {
       x: pos.x - this.viewOrigin.x,
       y: pos.y - this.viewOrigin.y
     };
+  }
+
+  /**
+   * 获取指定真实节点在图中的视图坐标位置
+   * @param {HTMLElement} dom 要获取坐标的节点
+   */
+  getDomViewPosition(dom) {
+    var now = dom;
+    var re = { x: 0, y: 0 };
+    while (now != null && now !== document) {
+      re.x += now.offsetLeft;
+      re.y += now.offsetTop;
+      now = now.parentNode;
+      if (now === this.refOrigin) {
+        return re;
+      }
+    }
+    return re;
   }
 }

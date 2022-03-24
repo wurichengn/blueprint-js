@@ -1,3 +1,5 @@
+import { BluePrintInputDefine, BluePrintOutputDefine } from '../core/define-node';
+
 /**
  * 生成一个UUID字符串
  * @param {number} [num] 随机串数，默认为4
@@ -15,4 +17,16 @@ export var UUID = function(num = 4) {
     re += '-' + S4();
   }
   return re;
+};
+
+/**
+ * 一个输出定义是否可以连接到指定的输入定义
+ * @param {BluePrintOutputDefine} output 输出的定义
+ * @param {BluePrintInputDefine} input 输入的定义
+ */
+export var PointerCanLink = function(output, input) {
+  if (output.type === input.type || output.type == null || input.type == null) {
+    return true;
+  }
+  return false;
 };
