@@ -7,7 +7,9 @@ import { Program } from '../core/program';
  */
 export var PluginBase = function(program) {
   // ============类型定义============
-  program.addType('number', { name: '数值' });
+  program.addType('number', { name: '数值', inputModule: (val, cb) => {
+    return <input type='number' key='number' value={val} onChange={e => { cb(Number(e.target.value)); }} />;
+  } });
   program.addModule('math:add', MathAdd);
 };
 
@@ -16,7 +18,8 @@ class MathAdd extends BluePrintNode {
   static menu = '数学/加法运算';
 
   run(props) {
-    return props.a + props.b;
+    console.log(props);
+    return { num: props.a + props.b, num2: props.a - props.b };
   }
 
   define = this.$define({

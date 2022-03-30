@@ -3,6 +3,6 @@
 export class BPDefineType {
   /** 类型名称 */
   name = '未命名类型';
-  /** 类型值编辑组件，需要是React组件 */
-  editor = null;
+  /** @type {(val,callback:(val)=>{})=>{}} 输入组件扩展渲染内容，接收当前的值以及修改值回调 */
+  inputModule;
 }

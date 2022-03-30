@@ -25,7 +25,7 @@ export class Program {
   /** @type {ProgramConfig} 程序的相关配置 */
   config;
 
-  /** 类型定义表 */
+  /** @type {{[key:string]:BPDefineType}} 类型定义表 */
   types = {};
   /** @type {{[key:string]:typeof BluePrintNode}} 节点逻辑定义表 */
   modules = {};
@@ -68,6 +68,23 @@ export class Program {
     this.nodesMap[node.uid] = node;
     // 触发添加节点处理
     this.hooks.trigger('map-add-node', { node, program: this });
+  }
+
+  /**
+   * 从当前程序中删除一个节点
+   * @param {BluePrintNode} node 要删除的节点实例
+   */
+  removeNode(node) {
+    if (!this.nodes.includes(node)) return;
+    // 移除列表
+    this.nodes.splice(this.nodes.indexOf(node), 1);
+    delete this.nodesMap[node.uid];
+    // 清理多余关联内容
+    this.nodes.forEach(node => {
+      node.clearLink();
+    });
+    // 触发移除节点处理钩子
+    this.hooks.trigger('map-remove-node', { node, program: this });
   }
 }
 

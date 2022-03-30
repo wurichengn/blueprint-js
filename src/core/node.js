@@ -61,9 +61,48 @@ export class BluePrintNode {
     return this.constructor.name;
   }
 
-  /** 运行一次该节点 */
-  runNode() {
+  /** 构造当前节点依赖的参数 */
+  buildArgs(outputs) {
+    var args = {};
 
+    // 循环处理表单项
+    for (var i in this.attrs.forms) {
+      args[i] = this.attrs.forms[i];
+    }
+
+    // 循环处理关联项
+    for (var i in this.attrs.links) {
+      var link = this.attrs.links[i];
+      // 如果是多引用
+      if (Array.isArray(link)) {
+        var vals = [];
+        for (var j in link) {
+          vals.push(outputs(link[j].uid, link[j].key));
+        }
+        args[i] = vals;
+      } else {
+        // 单引用
+        args[i] = outputs(link.uid, link.key);
+      }
+    }
+
+    return args;
+  }
+
+  /**
+   * 清理无效节点关联
+   */
+  clearLink() {
+    for (var i in this.attrs.links) {
+      var links = this.attrs.links[i];
+      if (Array.isArray(links)) {
+        links = links.filter(link => this.program.nodesMap[link.uid] != null);
+      } else {
+        if (this.program.nodesMap[links.uid] == null) {
+          delete this.attrs.links[i];
+        }
+      }
+    }
   }
 
   /** @type {string} 节点所在菜单 */

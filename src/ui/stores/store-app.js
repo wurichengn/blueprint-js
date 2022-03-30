@@ -22,6 +22,11 @@ export class StoreMap {
     program.hooks.add('map-add-node', e => {
       this.nodes.push(new StoreNode(e.node, this));
     });
+
+    // 节点变化侦听
+    program.hooks.add('map-remove-node', e => {
+      this.nodes.splice(this.nodes.findIndex(i => i.uid === e.node.uid), 1);
+    });
   }
 
   /** @type {HTMLDivElement} 节点原点节点 */

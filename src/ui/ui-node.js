@@ -20,7 +20,7 @@ export var UINode = memo(function(/** @type {{node:StoreNode}} */props) {
   var state = props.node;
 
   // 触发节点渲染
-  state.node.hooks.trigger('node-render', { state: state, ref, refTitle });
+  state.node.hooks.trigger('node-render', { state: state, ref, refTitle, node: state.node });
 
   return useObserver(() => {
     /** 节点样式 */
@@ -28,6 +28,9 @@ export var UINode = memo(function(/** @type {{node:StoreNode}} */props) {
       left: state.x + 'px',
       top: state.y + 'px'
     };
+
+    // 触发节点渲染Observer
+    state.node.hooks.trigger('node-render-observer', { state: state, ref, refTitle, node: state.node });
 
     // 输入节点
     var inputs = state.inputs;
@@ -64,6 +67,12 @@ var Input = function(props) {
   var state = useContext(MapContext).state;
   var store = props.store;
   var refPointer = useRef();
+  var ref = useRef();
+  /** 额外渲染内容 */
+  var expand = [];
+
+  // 触发节点渲染
+  store.node.node.hooks.trigger('node-render-input', { state: store, ref, refPointer, expand, node: store.node.node });
 
   // 更新连接点位置
   useEffect(() => {
@@ -86,6 +95,7 @@ var Input = function(props) {
     return <div className={Styles.Input}>
       <div ref={refPointer} className={pointerClass.join(' ')} onMouseUp={e => { store.linkToActionPointer(); }}/>
       <div className={Styles.group}>{store.define.name}</div>
+      <div>{expand}</div>
     </div>;
   });
 };

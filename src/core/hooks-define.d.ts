@@ -1,6 +1,6 @@
 import { Ref } from "react";
 import { StoreMap } from "../ui/stores/store-app";
-import { StoreNode } from "../ui/stores/store-node";
+import { StoreInput, StoreNode } from "../ui/stores/store-node";
 import { BluePrintNode } from "./node";
 import { Program } from "./program";
 
@@ -43,6 +43,31 @@ declare global {
       /**节点标题的ref */
       refTitle:Ref<HTMLDivElement>
     })=>{};
+
+    /**节点渲染时触发，在observer内部,node-render之后 */
+    "node-render-observer":(e:{
+      /**渲染的逻辑节点 */
+      node:BluePrintNode,
+      /**渲染的UI状态机 */
+      state:StoreNode,
+      /**节点容器的ref */
+      ref:Ref<HTMLDivElement>,
+      /**节点标题的ref */
+      refTitle:Ref<HTMLDivElement>
+    })=>{};
+    
+    "node-render-input":(e:{
+      /**渲染的逻辑节点 */
+      node:BluePrintNode,
+      /**渲染的输入节点状态 */
+      state: StoreInput,
+      /**整个输入的ref */
+      ref:Ref<HTMLDivElement>,
+      /**输入控制点的ref */
+      refPointer:Ref<HTMLDivElement>,
+      /**输出的扩展渲染内容集合 */
+      expand:[]
+    })=>{}
   }
 }
 
