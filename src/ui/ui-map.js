@@ -8,6 +8,7 @@ import { useDomEvent, useMouseDrag } from './hooks/hook-event';
 import { StoreMap } from './stores/store-app';
 import { MapContext } from './ui-context';
 import { UINode } from './ui-node';
+import { useSize } from 'ahooks';
 var Styles = require('./styles/ui-map.less');
 configure({ enforceActions: false });
 
@@ -32,12 +33,18 @@ export var UIMap = (props) => {
     var rect = refNodes.current.getBoundingClientRect();
     state.viewOrigin.x = rect.left;
     state.viewOrigin.y = rect.top;
+
+    state.viewSize.width = ref.current.offsetWidth;
+    state.viewSize.height = ref.current.offsetHeight;
   });
 
   // 全局鼠标放开处理
   useDomEvent('mouseup', (e) => { state.actionPointer = null; });
   // 全局鼠标移动
   useDomEvent('mousemove', e => { state.mousePosition = state.mouse2view(e); });
+
+  // 侦听尺寸变化
+  useSize(ref);
 
   return useObserver(() => {
     /** 节点列表 */
@@ -73,7 +80,7 @@ var UILinks = memo(function() {
 
     return <div className={Styles.Link}>
       <svg>
-        <g>
+        <g style={{ transform: `translate3d(${state.viewSize.width / 2}px,${state.viewSize.height / 2}px,0px)` }}>
           <g style={{ transform: `translate3d(${state.position.x}px,${state.position.y}px,0px)` }}>{lines}</g>
         </g>
       </svg>
@@ -87,6 +94,7 @@ var UILinks = memo(function() {
  * @returns
  */
 var Line = memo(function(props) {
+  var state = useContext(MapContext).state;
   var p1 = props.ps;
   var p2 = props.pe;
   var c = { x: (p2.x + p1.x) / 2, y: (p2.y + p1.y) / 2 };

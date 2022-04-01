@@ -1,4 +1,3 @@
-import { BluePrintWorker } from '../../core/worker';
 import { useContextMenu } from './hook-contextmenu';
 import { useMouseDrag } from './hook-event';
 import { usePluginMapMenu } from './plugin-map-menu';
@@ -22,13 +21,11 @@ export var PluginEditor = (program) => {
     useMouseDrag({ position: state, ref: refTitle });
     // 绑定鼠标右键功能
     useContextMenu({ ref: refTitle, menuData() {
-      return [
-        ['删除节点', () => { state.node.program.removeNode(state.node); }],
-        ['运行节点', () => {
-          var worker = new BluePrintWorker(state.node);
-          worker.run();
-        }]
+      var menu = [
+        ['删除节点', () => { state.node.program.removeNode(state.node); }]
       ];
+      state.node.hooks.trigger('node-context-menu', { node: state.node, menu: menu });
+      return menu;
     } });
   });
 };
@@ -38,7 +35,7 @@ export var PluginEditor = (program) => {
  * @param {import("../../main").Program} program 蓝图程序实例
  */
 export var PluginEditorInnerInput = (program) => {
-  program.hooks.add('node-render-input', ({ state, node, expand }) => {
+  program.hooks.add('node-render-input', ({ state, node, expand, render }) => {
     // 多输入不支持内联输入参数
     if (state.define.many === true) return;
     // 获取类型
@@ -49,6 +46,7 @@ export var PluginEditorInnerInput = (program) => {
     if (type.inputModule) {
       expand.push(type.inputModule(node.attrs.forms[state.index], (val) => {
         node.attrs.forms[state.index] = val;
+        render({});
       }));
     }
   });

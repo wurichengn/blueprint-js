@@ -95,30 +95,30 @@ export class StoreInput {
     // 如果无效关联则跳过
     if (!PointerCanLink(pointer.node.define.outputs[pointer.key], this.define)) return;
     // 增加关联
-    this.node.node.attrs.links[this.index] = { uid: pointer.node.uid, key: pointer.key };
+    this.node.node.addLink(this.index, { uid: pointer.node.uid, key: pointer.key });
+    // 增加关联
+    // this.node.node.attrs.links[this.index] = { uid: pointer.node.uid, key: pointer.key };
   }
 
   getLinks() {
     var re = [];
-    if (this.node.node.attrs.links[this.index]) {
-      // 计算顶点位置
-      var pe = this.pos;
-      var out = this.node.node.attrs.links[this.index];
+    this.node.node.links(this.index).forEach((out, index) => {
       var node = this.node.map.nodes.find(node => node.uid === out.uid);
       var ps = node.outputs[out.key].pos;
+      var pe = this.pos;
       // 计算唯一ID
       var key = this.node.uid + ':' + this.index + ':' + node.uid + ':' + node.outputs[out.key];
       // 右键菜单回调
       var menuData = () => {
         return [['删除关联', () => {
-          delete this.node.node.attrs.links[this.index];
+          delete this.node.node.deleteLink(this.index, index);
           // TODO:暂时使用这种方案刷新
-          this.pos.x += 0.00001;
+          this.pos.x += 0.00001 * (Math.random() - 0.5);
         }]];
       };
       // 加入关联数据
       re.push({ ps, pe, key, menuData });
-    }
+    });
     return re;
   }
 }

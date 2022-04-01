@@ -1,5 +1,5 @@
 import { useObserver } from 'mobx-react';
-import { memo, useContext, useEffect } from 'react';
+import { memo, useContext, useEffect, useState } from 'react';
 import { useRef } from 'react/cjs/react.development';
 import { BluePrintInputDefine, BluePrintOutputDefine } from '../core/define-node';
 import { PointerCanLink } from '../utils/utils-base';
@@ -66,13 +66,14 @@ var Input = function(props) {
   /** 全局状态 */
   var state = useContext(MapContext).state;
   var store = props.store;
+  var [rstate, render] = useState();
   var refPointer = useRef();
   var ref = useRef();
   /** 额外渲染内容 */
   var expand = [];
 
   // 触发节点渲染
-  store.node.node.hooks.trigger('node-render-input', { state: store, ref, refPointer, expand, node: store.node.node });
+  store.node.node.hooks.trigger('node-render-input', { state: store, ref, refPointer, expand, node: store.node.node, render });
 
   // 更新连接点位置
   useEffect(() => {

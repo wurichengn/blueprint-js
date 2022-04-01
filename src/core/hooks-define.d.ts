@@ -57,6 +57,8 @@ declare global {
     })=>{};
     
     "node-render-input":(e:{
+      /**重渲染当前输入组件 */
+      render:()=>{};
       /**渲染的逻辑节点 */
       node:BluePrintNode,
       /**渲染的输入节点状态 */

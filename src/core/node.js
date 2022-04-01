@@ -37,11 +37,11 @@ export class BluePrintNode {
   attrs = new NodeAttrs();
 
   /**
-   * 定义属性，仅用于代码提示
+   * 定义属性
    * @param {NodeDefine} define
    * @returns
    */
-  $define(define) { return define; }
+  $define(define) { return this.setDefine(define); }
 
   /**
    * 设置节点定义
@@ -49,6 +49,23 @@ export class BluePrintNode {
    */
   setDefine(define) {
     this.define = define;
+    // 输入处理
+    for (var i in define.inputs) {
+      // 数组类型处理
+      if (define.inputs[i].many && !Array.isArray(this.attrs.links[i])) {
+        this.attrs.links[i] = [];
+      }
+      // 非数组类型处理
+      if (!define.inputs[i].many && Array.isArray(this.attrs.links[i])) {
+        this.attrs.links[i] = this.attrs.links[i][0];
+      }
+      // 默认值写入
+      if (this.define.inputs[i].default != null && this.attrs.forms[i] == null) {
+        this.attrs.forms[i] = this.define.inputs[i].default;
+      }
+    }
+
+    return this.define;
   }
 
   /** 获取实例名称 */
@@ -96,12 +113,58 @@ export class BluePrintNode {
     for (var i in this.attrs.links) {
       var links = this.attrs.links[i];
       if (Array.isArray(links)) {
-        links = links.filter(link => this.program.nodesMap[link.uid] != null);
+        this.attrs.links[i] = links.filter(link => this.program.nodesMap[link.uid] != null);
       } else {
         if (this.program.nodesMap[links.uid] == null) {
           delete this.attrs.links[i];
         }
       }
+    }
+  }
+
+  /**
+   * 循环获取所有的关联项数据
+   * @param {string} key 要获取关联项的输入key
+   * @returns {LinkData[]}
+   */
+  links(key) {
+    if (this.attrs.links[key] == null) return [];
+    if (Array.isArray(this.attrs.links[key])) {
+      return this.attrs.links[key];
+    } else {
+      return [this.attrs.links[key]];
+    }
+  }
+
+  /** 增加一个关联项 */
+  addLink(key, link) {
+    // 如果是数组输入项
+    if (Array.isArray(this.attrs.links[key])) {
+      // 循环判断是否已经有对应关联项
+      for (var i in this.attrs.links[key]) {
+        var now = this.attrs.links[key][i];
+        if (now.uid === link.uid && now.key === link.key) {
+          return;
+        }
+      }
+      // 加入关联项
+      this.attrs.links[key].push(link);
+    } else {
+      // 直接设置关联项
+      this.attrs.links[key] = link;
+    }
+  }
+
+  /**
+   * 移除一个关联项
+   * @param {string} key 要移除的关联项下标
+   * @param {number} index 要移除的关联项序号，多输入时使用
+   */
+  deleteLink(key, index) {
+    if (Array.isArray(this.attrs.links[key])) {
+      this.attrs.links[key].splice(index, 1);
+    } else {
+      delete this.attrs.links[key];
     }
   }
 

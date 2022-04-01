@@ -31,6 +31,8 @@ export class StoreMap {
 
   /** @type {HTMLDivElement} 节点原点节点 */
   refOrigin;
+  /** 获取宽高 */
+  @observable viewSize = { width: 0, height: 0 };
   /** 视图原点屏幕坐标 */
   @observable viewOrigin = { x: 0, y: 0 };
   /** 当前鼠标在视图中的坐标 */

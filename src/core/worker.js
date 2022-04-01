@@ -15,7 +15,7 @@ export class BluePrintWorker {
   /** @type {Program} 要运行的蓝图程序 */
   program;
 
-  /** @type {NodeDefine} 要运行的节点 */
+  /** @type {BluePrintNode} 要运行的节点 */
   entryNode;
 
   /** 是否正在运行中 */
@@ -28,7 +28,7 @@ export class BluePrintWorker {
   async run() {
     // 运行中检测
     if (this.running) {
-      return console.warn('任务正在运行中');
+      return console.warn('上一次任务正在运行中');
     }
     // 进入运行状态
     this.running = true;
@@ -40,8 +40,13 @@ export class BluePrintWorker {
       var node = nodeList[i];
       // 构造参数
       var args = node.buildArgs((uid, key) => {
-        if (this.outputs[uid] == null) return;
-        return this.outputs[uid][key];
+        /** 获取的输出数据 */
+        var output = this.outputs[uid];
+        // 如果没有对应输出数据则返回空
+        if (output == null) return;
+        // 判断是否为默认输出
+        if (node.define.outputs[key].default) return output;
+        return output[key];
       });
       // 运行节点
       var output = node.run(args);
@@ -54,6 +59,8 @@ export class BluePrintWorker {
     }
 
     this.running = false;
+
+    return this.outputs[this.entryNode.uid];
   }
 
   /** 整理每个节点的层级 */

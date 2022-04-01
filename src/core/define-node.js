@@ -7,8 +7,10 @@ export class BluePrintInputDefine {
   type = null;
   /** 是否是多输入 */
   many = false;
+  /** 输入的默认值 */
+  default = null;
   /** 在多输入情况下是否有顺序要求 */
-  orderly = false;
+  // orderly = false;
 }
 
 export class BluePrintOutputDefine {
