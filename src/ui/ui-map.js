@@ -14,25 +14,27 @@ configure({ enforceActions: false });
 
 /**
  * 逻辑图编辑组件
- * @param {{program:Program}} props
+ * @param {{store:StoreMap}} props
  * @returns {}
  */
 export var UIMap = (props) => {
   /** 视图的状态 */
-  var state = useLocalObservable(() => { return new StoreMap(props.program); });
+  var state = props.store;
   /** 根节点的ref */
   var ref = useRef();
   var refBG = useRef();
   var refNodes = useRef();
+  /** 扩展渲染的节点 */
+  var expand = [];
   // 触发渲染钩子
-  props.program.hooks.trigger('map-render', { ref: ref, state: state, refBG, refNodes });
+  state.program.hooks.triggerSync('map-render', { ref: ref, state: state, refBG, refNodes, expand });
 
   // 记录原点坐标
   useEffect(() => {
     state.refOrigin = refNodes.current;
     var rect = refNodes.current.getBoundingClientRect();
-    state.viewOrigin.x = rect.left;
-    state.viewOrigin.y = rect.top;
+    state.viewOrigin.x = rect.left * state.scale;
+    state.viewOrigin.y = rect.top * state.scale;
 
     state.viewSize.width = ref.current.offsetWidth;
     state.viewSize.height = ref.current.offsetHeight;
@@ -53,10 +55,11 @@ export var UIMap = (props) => {
     });
 
     return <MapContext.Provider value={{ state: state }}>
-      <div ref={ref} style={{ backgroundPosition: `${state.position.x}px ${state.position.y}px` }} className={Styles.Map}>
+      <div ref={ref} style={{ backgroundPosition: `${state.position.x * state.scale}px ${state.position.y * state.scale}px` }} className={Styles.Map}>
         <div ref={refBG} className={Styles.bg} />
         <UILinks />
-        <div ref={refNodes} style={{ marginLeft: state.position.x + 'px', marginTop: state.position.y + 'px' }} className={Styles.nodes}>{nodes}</div>
+        <div ref={refNodes} style={{ marginLeft: state.position.x + 'px', marginTop: state.position.y + 'px', zoom: state.scale }} className={Styles.nodes}>{nodes}</div>
+        {expand}
       </div>
     </MapContext.Provider>;
   });
@@ -81,7 +84,7 @@ var UILinks = memo(function() {
     return <div className={Styles.Link}>
       <svg>
         <g style={{ transform: `translate3d(${state.viewSize.width / 2}px,${state.viewSize.height / 2}px,0px)` }}>
-          <g style={{ transform: `translate3d(${state.position.x}px,${state.position.y}px,0px)` }}>{lines}</g>
+          <g style={{ transform: `translate3d(${state.position.x * state.scale}px,${state.position.y * state.scale}px,0px)` }}>{lines}</g>
         </g>
       </svg>
     </div>;
@@ -95,8 +98,12 @@ var UILinks = memo(function() {
  */
 var Line = memo(function(props) {
   var state = useContext(MapContext).state;
-  var p1 = props.ps;
-  var p2 = props.pe;
+  var p1 = { ...props.ps };
+  var p2 = { ...props.pe };
+  p1.x *= state.scale;
+  p1.y *= state.scale;
+  p2.x *= state.scale;
+  p2.y *= state.scale;
   var c = { x: (p2.x + p1.x) / 2, y: (p2.y + p1.y) / 2 };
   var ref = useRef();
 
@@ -107,10 +114,13 @@ var Line = memo(function(props) {
     return menu;
   } });
 
+  /** 曲线偏移量 */
+  var offset = 40 * state.scale;
+
   return useObserver(() => {
     return <>
-      <path ref={ref} className={Styles.linebg} d={'M' + p1.x + ',' + p1.y + ' Q' + (p1.x + 40) + ',' + p1.y + ',' + c.x + ',' + c.y + ' T' + p2.x + ',' + p2.y} />
-      <path className={Styles.line} d={'M' + p1.x + ',' + p1.y + ' Q' + (p1.x + 40) + ',' + p1.y + ',' + c.x + ',' + c.y + ' T' + p2.x + ',' + p2.y} />
+      <path ref={ref} className={Styles.linebg} d={'M' + p1.x + ',' + p1.y + ' Q' + (p1.x + offset) + ',' + p1.y + ',' + c.x + ',' + c.y + ' T' + p2.x + ',' + p2.y} />
+      <path className={Styles.line} d={'M' + p1.x + ',' + p1.y + ' Q' + (p1.x + offset) + ',' + p1.y + ',' + c.x + ',' + c.y + ' T' + p2.x + ',' + p2.y} />
     </>;
   });
 });

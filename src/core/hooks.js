@@ -58,5 +58,24 @@ export class BluePrintHooks {
       }
       return args;
     };
+
+    /**
+   * 同步触发钩子
+   * @param {string|Symbol} type 钩子的类型
+   * @param {*} args 钩子的参数
+   * @returns {*} 直接将args参数返回
+   */
+    this.triggerSync = function(type, args) {
+      var list = hooks[type];
+      // 触发指定类型回调
+      for (var i in list) {
+        list[i][1](args);
+      }
+      // 触发全侦听回调
+      for (var i in alls) {
+        alls[i](args, type);
+      }
+      return args;
+    };
   }
 }

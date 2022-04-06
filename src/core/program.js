@@ -1,3 +1,4 @@
+import { UUID } from '../utils/utils-base';
 import { BPDefineType } from './define-type';
 import { BluePrintHooks } from './hooks';
 import { BluePrintNode } from './node';
@@ -35,6 +36,9 @@ export class Program {
   /** @type {{[key:string]:BluePrintNode}} 当前程序里所有节点的uid映射表 */
   nodesMap = {};
 
+  /** 当前程序的全局唯一编号 */
+  uid = UUID();
+
   /**
    * 往程序中添加一个类型定义
    * @param {string|Symbol} key 类型的唯一标识符
@@ -64,10 +68,26 @@ export class Program {
    * @param {BluePrintNode} node 要添加的节点实例
    */
   addNode(node) {
+    var type = this.getNodeType(node);
+    if (type == null) return new Error('禁止加入未在程序中定义的节点');
+    node.type = type;
     this.nodes.push(node);
     this.nodesMap[node.uid] = node;
     // 触发添加节点处理
     this.hooks.trigger('map-add-node', { node, program: this });
+  }
+
+  /**
+   * 获取节点的类型key
+   * @param {BluePrintNode} node 要获取类型的节点
+   * @returns {string}
+   */
+  getNodeType(node) {
+    for (var i in this.modules) {
+      if (this.modules[i] == node.constructor) {
+        return i;
+      }
+    }
   }
 
   /**
@@ -85,6 +105,28 @@ export class Program {
     });
     // 触发移除节点处理钩子
     this.hooks.trigger('map-remove-node', { node, program: this });
+  }
+
+  /** 将当前程序中的结构数据序列化为JSON */
+  save() {
+    return {
+      uid: this.uid,
+      nodes: this.nodes.map(node => node.save())
+    };
+  }
+
+  /** 从已经存储好的数据中载入图结构 */
+  load(data) {
+    // 覆盖uid
+    this.uid = data.uid || this.uid;
+    // 移除所有现有节点
+    while (this.nodes.length > 0) {
+      this.removeNode(this.nodes[0]);
+    }
+    // 添加节点
+    data.nodes.forEach(node => {
+      this.addNode(new this.modules[node.type](this, node));
+    });
   }
 }
 

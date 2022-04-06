@@ -45,7 +45,7 @@ export class BluePrintWorker {
         // 如果没有对应输出数据则返回空
         if (output == null) return;
         // 判断是否为默认输出
-        if (node.define.outputs[key].default) return output;
+        if (this.program.nodesMap[uid].define.outputs[key].default) return output;
         return output[key];
       });
       // 运行节点

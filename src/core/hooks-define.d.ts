@@ -15,13 +15,19 @@ declare global {
       /** 图组件的节点容器的引用 */
       refNodes:Ref<HTMLDivElement>,
       /** 图组件的状态 */
-      state:StoreMap
+      state:StoreMap,
+      /**图的扩展渲染内容集合 */
+      expand:[]
     })=>{};
     
     /**在图中打开右键菜单时触发 */
     "map-contextmenu":(e:{
       /**当前的菜单数据，修改该数据可以影像菜单最终打开的结果，如果要关闭菜单可以赋值为空数组 */
-      menuData:any
+      menuData:any,
+      /**图的状态 */
+      state:StoreMap,
+      /**图对应的程序 */
+      program:Program
     })=>{};
 
     /**图中添加节点时触发 */
@@ -41,7 +47,9 @@ declare global {
       /**节点容器的ref */
       ref:Ref<HTMLDivElement>,
       /**节点标题的ref */
-      refTitle:Ref<HTMLDivElement>
+      refTitle:Ref<HTMLDivElement>,
+      /**图的扩展渲染内容集合 */
+      expand:[]
     })=>{};
 
     /**节点渲染时触发，在observer内部,node-render之后 */
@@ -53,9 +61,12 @@ declare global {
       /**节点容器的ref */
       ref:Ref<HTMLDivElement>,
       /**节点标题的ref */
-      refTitle:Ref<HTMLDivElement>
+      refTitle:Ref<HTMLDivElement>,
+      /**图的扩展渲染内容集合 */
+      expand:[]
     })=>{};
     
+    /**节点的输入组件渲染时 */
     "node-render-input":(e:{
       /**重渲染当前输入组件 */
       render:()=>{};
@@ -69,6 +80,12 @@ declare global {
       refPointer:Ref<HTMLDivElement>,
       /**输出的扩展渲染内容集合 */
       expand:[]
+    })=>{}
+
+    /**节点要保存时 */
+    "node-save":(e:{
+      /**节点要保存的数据 */
+      saveData:*
     })=>{}
   }
 }

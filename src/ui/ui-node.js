@@ -18,9 +18,11 @@ export var UINode = memo(function(/** @type {{node:StoreNode}} */props) {
 
   /** 当前节点的状态机 */
   var state = props.node;
+  /** 节点的额外渲染内容 */
+  var expand = [];
 
   // 触发节点渲染
-  state.node.hooks.trigger('node-render', { state: state, ref, refTitle, node: state.node });
+  state.node.hooks.triggerSync('node-render', { state: state, ref, refTitle, node: state.node, expand });
 
   return useObserver(() => {
     /** 节点样式 */
@@ -30,7 +32,7 @@ export var UINode = memo(function(/** @type {{node:StoreNode}} */props) {
     };
 
     // 触发节点渲染Observer
-    state.node.hooks.trigger('node-render-observer', { state: state, ref, refTitle, node: state.node });
+    state.node.hooks.triggerSync('node-render-observer', { state: state, ref, refTitle, node: state.node, expand });
 
     // 输入节点
     var inputs = state.inputs;
@@ -48,10 +50,15 @@ export var UINode = memo(function(/** @type {{node:StoreNode}} */props) {
       outputDoms.push(<Output store={outputs[key]} key={key} />);
     }
 
+    var classList = [Styles.Node];
+    if (state.isSelect) {
+      classList.push(Styles.isSelect);
+    }
+
     return <NodeContext.Provider value={{ state: state }}>
-      <div style={style} ref={ref} className={Styles.Node}>
+      <div style={style} ref={ref} className={classList.join(' ')}>
         <div ref={refTitle} className={Styles.title}>{state.node.getNodeName()}</div>
-        <div className={Styles.group} >{inputDoms}{outputDoms}</div>
+        <div className={Styles.group} >{expand}{inputDoms}{outputDoms}</div>
       </div>
     </NodeContext.Provider>;
   });
@@ -73,7 +80,7 @@ var Input = function(props) {
   var expand = [];
 
   // 触发节点渲染
-  store.node.node.hooks.trigger('node-render-input', { state: store, ref, refPointer, expand, node: store.node.node, render });
+  store.node.node.hooks.triggerSync('node-render-input', { state: store, ref, refPointer, expand, node: store.node.node, render });
 
   // 更新连接点位置
   useEffect(() => {

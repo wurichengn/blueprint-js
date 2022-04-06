@@ -10,7 +10,7 @@ export var usePluginMapMenu = function(ref, state) {
   // 右键菜单功能
   useContextMenu({ ref, menuData: async() => {
     var createNodeMenu = getCreateNodeMenu(state);
-    return (await state.program.hooks.trigger('map-contextmenu', { menuData: [
+    return (await state.program.hooks.trigger('map-contextmenu', { state: state, program: state.program, menuData: [
       ['创建节点', createNodeMenu]
     ] })).menuData;
   } });

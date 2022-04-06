@@ -3,6 +3,12 @@ import { useEffect, useRef } from 'react';
 class MouseDragArgs {
   /** @type {{x:number,y:number}} 要操作的对象 */
   position = null;
+  /** @type {(e:MouseEvent)=>{}} 鼠标按下回调 */
+  onmousedown = null;
+  /** @type {(e:MouseEvent)=>{}} 鼠标移动回调 */
+  onmousemove = null;
+  /** @type {(e:MouseEvent)=>{}} 鼠标放开回调 */
+  onmouseup = null;
   /** @type {(pos:{x:number,y:number})=>{}} 移动回调函数 */
   callback = null;
   /** 是否反向操作 */
@@ -39,6 +45,10 @@ export var useMouseDrag = function(cfg = {}) {
       isd = true;
       lx = e.x;
       ly = e.y;
+
+      if (config.onmousedown) {
+        config.onmousedown(e);
+      }
     });
 
     // 鼠标移动
@@ -60,6 +70,9 @@ export var useMouseDrag = function(cfg = {}) {
       if (config.callback) {
         config.callback({ x: cx, y: cy });
       }
+      if (config.onmousemove) {
+        config.onmousemove(e);
+      }
       lx = e.x;
       ly = e.y;
     };
@@ -69,6 +82,10 @@ export var useMouseDrag = function(cfg = {}) {
     var mouseup = e => {
       if (!isd) return;
       isd = false;
+
+      if (config.onmouseup) {
+        config.onmouseup(e);
+      }
     };
     document.addEventListener('mouseup', mouseup);
 
@@ -90,6 +107,7 @@ export var useMouseDrag = function(cfg = {}) {
  */
 export var useDomEvent = function(event, callback, target = document) {
   useEffect(() => {
+    if (target.current)target = target.current;
     target.addEventListener(event, callback);
     return () => {
       target.removeEventListener(event, callback);

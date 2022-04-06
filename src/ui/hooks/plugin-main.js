@@ -1,5 +1,5 @@
 import { useContextMenu } from './hook-contextmenu';
-import { useMouseDrag } from './hook-event';
+import { useDomEvent, useMouseDrag } from './hook-event';
 import { usePluginMapMenu } from './plugin-map-menu';
 
 /**
@@ -10,22 +10,76 @@ export var PluginEditor = (program) => {
   // 拓扑图编辑器渲染扩展
   program.hooks.add('map-render', ({ ref, state, refBG }) => {
     // 绑定鼠标拖动功能
-    useMouseDrag({ position: state.position, ref: refBG });
+    useMouseDrag({ callback: e => {
+      state.position.x += e.x / state.scale;
+      state.position.y += e.y / state.scale;
+    }, ref: refBG });
     // 右键菜单功能
     usePluginMapMenu(refBG, state);
+    // 鼠标滚轮功能
+    useDomEvent('wheel', e => {
+      if (e.deltaY > 0) {
+        state.scale /= 1.08;
+      } else {
+        state.scale *= 1.08;
+      }
+    }, refBG);
   });
 
   // 单个节点渲染功能扩展
   program.hooks.add('node-render', ({ refTitle, state }) => {
+    // 鼠标是否有拖动
+    var mouseMoveEnd = false;
     // 绑定鼠标拖动功能
-    useMouseDrag({ position: state, ref: refTitle });
+    useMouseDrag({
+      onmousedown: e => {
+        mouseMoveEnd = false;
+      },
+      onmouseup: e => {
+        if (mouseMoveEnd === true) {
+          return;
+        }
+        var mode = 0;
+        if (e.ctrlKey) {
+          mode = 1;
+        }
+        if (e.shiftKey) {
+          mode = 2;
+        }
+        state.map.selectNode([state], mode);
+      },
+      callback: e => {
+        mouseMoveEnd = true;
+        var useNodes = state.map.nodes.filter(node => node.isSelect);
+        if (!useNodes.includes(state)) {
+          useNodes = [state];
+        }
+        useNodes.forEach(node => {
+          node.x += e.x / state.map.scale;
+          node.y += e.y / state.map.scale;
+          node.node.attrs.x = node.x;
+          node.node.attrs.y = node.y;
+        });
+      },
+      ref: refTitle
+    });
     // 绑定鼠标右键功能
     useContextMenu({ ref: refTitle, menuData() {
-      var menu = [
-        ['删除节点', () => { state.node.program.removeNode(state.node); }]
+      var menuData = [
+        ['删除节点', () => {
+          if (state.isSelect) {
+            for (var i = state.map.nodes.length - 1; i >= 0; i--) {
+              if (state.map.nodes[i].isSelect) {
+                state.node.program.removeNode(state.map.nodes[i].node);
+              }
+            }
+          } else {
+            state.node.program.removeNode(state.node);
+          }
+        }]
       ];
-      state.node.hooks.trigger('node-context-menu', { node: state.node, menu: menu });
-      return menu;
+      state.node.hooks.trigger('node-contextmenu', { node: state.node, menuData: menuData });
+      return menuData;
     } });
   });
 };

@@ -7,8 +7,9 @@ import { Program } from './program';
 export class BluePrintNode {
   /**
    * @param {Program} program 节点所属的程序
+   * @param {*} saveData 之前保存的数据
    */
-  constructor(program) {
+  constructor(program, saveData) {
     this.program = program;
     // 钩子转发
     this.hooks.all((e, type) => {
@@ -16,6 +17,13 @@ export class BluePrintNode {
       e.node = this;
       this.program.hooks.trigger(type, e);
     });
+    // 如果有已保存的数据
+    if (saveData) {
+      for (var i in saveData.attrs) {
+        this.attrs[i] = saveData.attrs[i];
+      }
+      this.uid = saveData.uid;
+    }
   }
 
   /**
@@ -27,6 +35,8 @@ export class BluePrintNode {
   uid = UUID();
   /** @type {Program} 节点所属的程序 */
   program;
+  /** @type {string} 节点在当前程序中的类型 */
+  type;
 
   /** 当前节点的钩子 */
   hooks = new BluePrintHooks();
@@ -64,6 +74,8 @@ export class BluePrintNode {
         this.attrs.forms[i] = this.define.inputs[i].default;
       }
     }
+
+    this.hooks.triggerSync('node-update-define', { define: define });
 
     return this.define;
   }
@@ -168,6 +180,17 @@ export class BluePrintNode {
     }
   }
 
+  /** 序列化当前节点的数据 */
+  save() {
+    var re = {
+      uid: this.uid,
+      type: this.type,
+      attrs: { ...this.attrs }
+    };
+    this.hooks.triggerSync('node-save', { saveData: re });
+    return re;
+  }
+
   /** @type {string} 节点所在菜单 */
   static menu;
 }
@@ -197,12 +220,6 @@ class NodeAttrs {
   forms = {};
   /** @type {{[key:string]:LinkData|LinkData[]}} 当前节点输入关联的组件 */
   links = {};
-  /** 当前节点关联输入的值 */
-  link_values = {};
-  /** 整合后所有输入的值 */
-  inputs = {};
-  /** 当前节点输出的值 */
-  outputs = {};
 }
 
 /** 关联信息数据 */

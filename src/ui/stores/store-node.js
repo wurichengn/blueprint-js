@@ -1,11 +1,15 @@
 import { action, makeObservable, observable } from 'mobx';
 import { BluePrintInputDefine, BluePrintOutputDefine } from '../../core/define-node';
-import { NodeDefine } from '../../core/node';
+import { NodeDefine, BluePrintNode } from '../../core/node';
 import { PointerCanLink } from '../../utils/utils-base';
 import { StoreMap } from './store-app';
 
 /** 单个节点的状态 */
 export class StoreNode {
+  /**
+   * @param {BluePrintNode} node
+   * @param {StoreMap} map
+   */
   constructor(node, map) {
     this.map = map;
     this.node = node;
@@ -16,6 +20,9 @@ export class StoreNode {
     makeObservable(this);
     // 初始化处理
     this.updateDefine();
+    node.hooks.add('node-update-define', () => {
+      this.updateDefine();
+    });
   }
 
   /** @type {StoreMap} 节点所属的图 */
@@ -23,6 +30,9 @@ export class StoreNode {
 
   /** 节点的全局唯一编号 */
   uid = '';
+
+  /** 节点是否被选中 */
+  @observable isSelect = false;
 
   /** 节点在图中的位置X */
   @observable x = 0;
@@ -42,6 +52,8 @@ export class StoreNode {
 
   /** 更新定义 */
   @action updateDefine() {
+    this.define = this.node.define;
+
     this.inputs = {};
     for (var i in this.define.inputs) {
       this.inputs[i] = new StoreInput(this, i);
