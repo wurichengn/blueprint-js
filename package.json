@@ -1,8 +1,13 @@
 {
-    "name": "blueprint-js",
+    "name": "bluep-js",
     "version": "0.0.1",
-    "requires": true,
-    "main":"src/index.js",
+    "description": "一个可扩展的JS流程化运行方案",
+    "main":"src/main.js",
+    "homepage": "https://github.com/wurichengn/blueprint-js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/wurichengn/blueprint-js"
+    },
     "dependencies": {
         "mobx": "6.3.8",
         "mobx-react": "7.2.1",
