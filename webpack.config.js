@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 /** 当时是否是开发环境 */
 const isDev = process.env.NODE_ENV === 'development';
@@ -9,8 +10,8 @@ var config = {
   mode: isDev ? 'development' : 'production',
   // 入口文件
   entry: {
-    main:'./src/main.js',
-    samples:"./src/samples.js"
+    main: './src/main.js',
+    samples: './src/samples.js'
   },
   // 输出目录
   output: {
@@ -56,6 +57,12 @@ var config = {
     new webpack.ProvidePlugin({
       // 强制React使用development包
       React: 'react'
+    }),
+    new BundleAnalyzerPlugin({
+      reportFilename: '../report.html',
+      analyzerMode: 'static',
+      openAnalyzer: false,
+      generateStatsFile: false
     })
   ],
   // 服务设置

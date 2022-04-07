@@ -8,7 +8,7 @@ import { useDomEvent, useMouseDrag } from './hooks/hook-event';
 import { StoreMap } from './stores/store-app';
 import { MapContext } from './ui-context';
 import { UINode } from './ui-node';
-import { useSize } from 'ahooks';
+// import { useSize } from 'ahooks';
 var Styles = require('./styles/ui-map.less');
 configure({ enforceActions: false });
 
@@ -46,7 +46,7 @@ export var UIMap = (props) => {
   useDomEvent('mousemove', e => { state.mousePosition = state.mouse2view(e); });
 
   // 侦听尺寸变化
-  useSize(ref);
+  // useSize(ref);
 
   return useObserver(() => {
     /** 节点列表 */

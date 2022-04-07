@@ -1,6 +1,7 @@
-import { BluePrintNode, Program } from '../main';
+import { BluePrintNode } from '../main';
 import React from 'react';
 import { BluePrintWorker } from '../core/worker';
+import { Program } from '../core/program';
 
 /**
  * 子程序插件，为当前程序加入可以创建子程序的功能

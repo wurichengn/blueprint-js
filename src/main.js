@@ -1,6 +1,6 @@
-import { UIMap } from './ui/ui-map';
 import { Program } from './core/program';
 import { BluePrintNode } from './core/node';
-import { PluginEditor } from './ui/hooks/plugin-main';
+import { PluginBase } from './plugins/plugin-base';
+import { PluginChildProgram } from './plugins/plugin-child-program';
 
-export { UIMap, Program, BluePrintNode, PluginEditor };
+export { PluginChildProgram, PluginBase, Program as BluePrintProgram, BluePrintNode };

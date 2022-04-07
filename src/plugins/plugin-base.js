@@ -17,43 +17,4 @@ export var PluginBase = function(program) {
   program.addType('color', { name: '颜色', inputModule: (val, cb) => {
     return <input className={Styles.color} type='color' key='color' value={val} onChange={e => { cb(e.target.value); }} />;
   } });
-  program.addModule('math:add', MathAdd);
-  program.addModule('math:add-all', MathAddAll);
 };
-
-/** 加法 */
-class MathAdd extends BluePrintNode {
-  static menu = '数学/加法运算';
-
-  run(props) {
-    return props.a + props.b;
-  }
-
-  define = this.$define({
-    inputs: {
-      'a': { name: 'A', type: 'number' },
-      'b': { name: 'B', type: 'number' }
-    },
-    outputs: {
-      'num': { name: '数值', type: 'number', default: true }
-    }
-  })
-}
-
-/** 加法 */
-class MathAddAll extends BluePrintNode {
-  static menu = '数学/全部相加';
-
-  run(props) {
-    return props.nums.reduce((a, b) => a + b, 0);
-  }
-
-  define = this.$define({
-    inputs: {
-      'nums': { name: '数值', type: 'number', many: true }
-    },
-    outputs: {
-      'num': { name: '数值', type: 'number', default: true }
-    }
-  })
-}

@@ -1,6 +1,6 @@
 var ReactDOM = require('react-dom');
 const { BluePrintWorker } = require('../core/worker');
-const { Program, UIMap, PluginEditor } = require('../main');
+const { PluginEditor, BluePrintProgram } = require('../main');
 const { PluginBase } = require('../plugins/plugin-base');
 const { PluginChildProgram } = require('../plugins/plugin-child-program');
 const { PluginEditorInnerInput } = require('../ui/hooks/plugin-main');
@@ -18,7 +18,7 @@ div.style['height'] = '50%';
 div.className = Styles.App;
 document.body.appendChild(div);
 
-var program = new Program({ plugins: [PluginBase, PluginEditor, PluginChildProgram, PluginTopMenu, PluginEditorInnerInput, PluginReactTest] });
+var program = new BluePrintProgram({ plugins: [PluginBase, PluginEditor, PluginChildProgram, PluginTopMenu, PluginEditorInnerInput, PluginReactTest] });
 
 /** 扩展节点右键菜单 */
 program.hooks.add('node-contextmenu', ({ node, menuData }) => {
