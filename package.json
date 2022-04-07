@@ -52,6 +52,7 @@
         "build": "cross-env NODE_ENV=production webpack --progress --display-modules --color --config webpack.config.js",
         "dev": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.js",
         "devp": "cross-env NODE_ENV=production webpack-dev-server --config webpack.config.js",
-        "git": "node project.git.js"
+        "git": "node project.git.js",
+        "publish": "npm publish"
     }
 }
