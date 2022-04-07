@@ -57,7 +57,7 @@ export var UINode = memo(function(/** @type {{node:StoreNode}} */props) {
 
     return <NodeContext.Provider value={{ state: state }}>
       <div style={style} ref={ref} className={classList.join(' ')}>
-        <div ref={refTitle} className={Styles.title}>{state.node.getNodeName()}</div>
+        <div ref={refTitle} style={{ backgroundColor: state.color }} className={Styles.title}>{state.node.getNodeName()}</div>
         <div className={Styles.group} >{expand}{inputDoms}{outputDoms}</div>
       </div>
     </NodeContext.Provider>;

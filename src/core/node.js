@@ -204,6 +204,8 @@ export class NodeDefine {
   }
   /** 节点的名称 */
   name = '未命名节点';
+  /** 节点的颜色，仅用于UI中区分类型 */
+  color = '#17487a';
   /** @type {{[key:string]:BluePrintInputDefine}} 输入的定义 */
   inputs = {};
   /** @type {{[key:string]:BluePrintOutputDefine}} 输出的定义 */

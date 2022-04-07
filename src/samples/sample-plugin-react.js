@@ -69,6 +69,7 @@ var createReactModule = function(props) {
 
   /** 构造定义 */
   var define = {
+    color: '#7a1717',
     inputs: props.inputs || {},
     name: props.name || Module.name,
     outputs: { 'module': { name: '组件', type: 'react:module', default: true }}

@@ -49,10 +49,14 @@ export class StoreNode {
   @observable inputs = {};
   /** 输出状态表 */
   @observable outputs = {};
+  /** 节点的颜色 */
+  @observable color = '#17487a';
 
   /** 更新定义 */
   @action updateDefine() {
     this.define = this.node.define;
+
+    this.color = this.define.color;
 
     this.inputs = {};
     for (var i in this.define.inputs) {
