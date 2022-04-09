@@ -1,9 +1,9 @@
 var ReactDOM = require('react-dom');
 const { BluePrintWorker } = require('../core/worker');
-const { PluginEditor, BluePrintProgram } = require('../main');
+const { BluePrintProgram } = require('../main');
 const { PluginBase } = require('../plugins/plugin-base');
 const { PluginChildProgram } = require('../plugins/plugin-child-program');
-const { PluginEditorInnerInput } = require('../ui/hooks/plugin-main');
+const { PluginEditorInnerInput, PluginEditor } = require('../ui/hooks/plugin-main');
 const { PluginTopMenu } = require('../ui/hooks/plugin-top-menu');
 const { UIContainer } = require('../ui/ui-container');
 const { PluginReactTest } = require('./sample-plugin-react');

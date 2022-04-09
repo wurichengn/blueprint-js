@@ -112,5 +112,5 @@ export var useDomEvent = function(event, callback, target = document) {
     return () => {
       target.removeEventListener(event, callback);
     };
-  });
+  }, []);
 };
