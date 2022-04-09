@@ -1,5 +1,6 @@
 import { StoreMap } from './stores/store-app';
 import { StoreNode } from './stores/store-node';
+import React from 'react';
 
 /** 单个拓扑图的上下文 */
 export var MapContext = React.createContext({

@@ -1,4 +1,3 @@
-import { AddHooksFunction } from './hooks-define';
 
 /** 蓝图钩子 */
 export class BluePrintHooks {
@@ -22,7 +21,7 @@ export class BluePrintHooks {
 
     /**
      * 添加一个钩子
-     * @type {AddHooksFunction}
+     * @type {import('./hooks-define').AddHooksFunction}
      * @param {string|Symbol} type 钩子类型
      * @param {()=>{}} callback 绑定的钩子
      * @returns {()=>{}} 释放对应的钩子的方法

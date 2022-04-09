@@ -2,14 +2,15 @@ import { configure } from 'mobx';
 import { useLocalObservable, useObserver } from 'mobx-react';
 import { memo, useRef } from 'react';
 import { useContext, useEffect } from 'react';
-import { Program } from '../main';
 import { useContextMenu } from './hooks/hook-contextmenu';
 import { useDomEvent, useMouseDrag } from './hooks/hook-event';
 import { StoreMap } from './stores/store-app';
 import { MapContext } from './ui-context';
 import { UINode } from './ui-node';
 import { useSize } from 'ahooks';
-var Styles = require('./styles/ui-map.less');
+import { Program } from '../core/program';
+import Styles from './styles/ui-map.less';
+import React from 'react';
 configure({ enforceActions: false });
 
 /**

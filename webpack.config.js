@@ -11,12 +11,29 @@ var config = {
   // 入口文件
   entry: {
     main: './src/main.js',
-    samples: './src/samples.js'
+    samples: './src/samples.js',
+    editor: './src/editor.js'
+  },
+  optimization: {
+    minimize: false
+  },
+  externals: {
+    'react': 'react',
+    'mobx': 'mobx',
+    'mobx-react': 'mobx-react',
+    'react-dom': 'react-dom',
+    'ahooks': 'ahooks'
+  },
+  experiments: {
+    outputModule: true
   },
   // 输出目录
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: '[name].js'
+    filename: '[name].js',
+    library: {
+      type: 'module'
+    }
   },
   // loader配置
   module: {
@@ -53,11 +70,6 @@ var config = {
   },
   // 插件
   plugins: [
-    // 将React加入到环境全局中
-    new webpack.ProvidePlugin({
-      // 强制React使用development包
-      React: 'react'
-    }),
     new BundleAnalyzerPlugin({
       reportFilename: '../report.html',
       analyzerMode: 'static',
@@ -82,7 +94,7 @@ var config = {
     // 允许远端访问
     host: '0.0.0.0'
   },
-  devtool: (isDev || true) ? 'cheap-module-eval-source-map' : 'none'
+  devtool: isDev ? 'eval-cheap-module-source-map' : 'source-map'
 };
 
 // 输出最终的配置

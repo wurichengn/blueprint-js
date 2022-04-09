@@ -5,8 +5,8 @@ import { BluePrintInputDefine, BluePrintOutputDefine } from '../core/define-node
 import { PointerCanLink } from '../utils/utils-base';
 import { StoreInput, StoreNode, StoreOutput } from './stores/store-node';
 import { MapContext, NodeContext } from './ui-context';
-
-var Styles = require('./styles/ui-node.less');
+import Styles from './styles/ui-node.less';
+import React from 'react';
 
 /**
  * 单个节点组件

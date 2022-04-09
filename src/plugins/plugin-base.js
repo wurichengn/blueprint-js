@@ -1,6 +1,7 @@
 import { BluePrintNode } from '../core/node';
 import { Program } from '../core/program';
 import Styles from './plugin-base.less';
+import React from 'react';
 
 /**
  * 基础功能

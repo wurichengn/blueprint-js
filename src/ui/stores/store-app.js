@@ -1,5 +1,5 @@
 import { intercept, makeObservable, observable } from 'mobx';
-import { Program } from '../../main';
+import { Program } from '../../core/program';
 import { StoreContainer } from './store-container';
 import { StoreNode } from './store-node';
 

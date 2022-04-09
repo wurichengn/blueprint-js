@@ -2,8 +2,9 @@ import { makeObservable, observable } from 'mobx';
 import { useObserver } from 'mobx-react';
 import { useEffect, useRef } from 'react';
 import { isChild } from '../../utils/utils-dom';
-var Styles = require('./styles/contextmenu.less');
-var ReactDOM = require('react-dom');
+import Styles from './styles/contextmenu.less';
+import ReactDOM from 'react-dom';
+import React from 'react';
 
 class useContextMenuConfig {
   /** 菜单数据，返回要创建的菜单的数据 */

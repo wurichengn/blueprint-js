@@ -1,5 +1,6 @@
-var ReactDOM = require('react-dom');
-var Styles = require('./styles/ui-contextmenu.less');
+import ReactDOM from 'react-dom';
+import Styles from './styles/ui-contextmenu.less';
+import React from 'react';
 
 /**
  * 右键悬浮菜单

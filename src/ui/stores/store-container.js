@@ -1,5 +1,5 @@
 import { action, autorun, intercept, makeObservable, observable } from 'mobx';
-import { Program } from '../../main';
+import { Program } from '../../core/program';
 import { StoreMap } from './store-app';
 
 /** 容器的 */
