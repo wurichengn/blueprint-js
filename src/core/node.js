@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { UUID } from '../utils/utils-base';
 import { BluePrintInputDefine, BluePrintOutputDefine } from './define-node';
 import { BluePrintHooks } from './hooks';
@@ -16,6 +17,12 @@ export class BluePrintNode {
       e = e || {};
       e.node = this;
       this.program.hooks.trigger(type, e);
+    });
+    // from改变触发onChange
+    this.hooks.add('node-forms-update', (e) => {
+      if (this.define.inputs[e.key] && this.define.inputs[e.key].onChange) {
+        this.define.inputs[e.key].onChange({ node: this, key: e.key, value: e.value });
+      }
     });
     // 如果有已保存的数据
     if (saveData) {
@@ -47,7 +54,7 @@ export class BluePrintNode {
   attrs = new NodeAttrs();
 
   /**
-   * 定义属性
+   * 定义属性,setDefine的别名，构造初始化时也需要调用
    * @param {NodeDefine} define
    * @returns
    */
@@ -58,7 +65,22 @@ export class BluePrintNode {
    * @param {NodeDefine} define
    */
   setDefine(define) {
-    this.define = define;
+    this._define = define || this._define;
+    this.define = define = _.cloneDeep(this._define);
+
+    // 重新构造输入
+    var inputs = {};
+    for (var i in define.inputs) {
+      if (typeof define.inputs[i] === 'function') {
+        // 如果是方法类型的输入则执行方法
+        define.inputs[i]({ node: this, key: i, inputs });
+      } else {
+        // 否则直接使用输入
+        inputs[i] = define.inputs[i];
+      }
+    }
+    define.inputs = inputs;
+
     // 输入处理
     for (var i in define.inputs) {
       // 数组类型处理
@@ -75,6 +97,7 @@ export class BluePrintNode {
       }
     }
 
+    // 触发定义改变消息
     this.hooks.triggerSync('node-update-define', { define: define });
 
     return this.define;
@@ -112,6 +135,13 @@ export class BluePrintNode {
       } else {
         // 单引用
         args[i] = outputs(link.uid, link.key);
+      }
+    }
+
+    // 处理参数回调
+    for (var i in this.define.inputs) {
+      if (this.define.inputs[i].onBuild) {
+        this.define.inputs[i].onBuild({ node: this, key: i, args: args });
       }
     }
 

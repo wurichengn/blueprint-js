@@ -1,3 +1,4 @@
+import { Program } from '../../core/program';
 import { useContextMenu } from './hook-contextmenu';
 import { useDomEvent, useMouseDrag } from './hook-event';
 import { usePluginMapMenu } from './plugin-map-menu';
@@ -86,7 +87,7 @@ export var PluginEditor = (program) => {
 
 /**
  * 编辑器下组件内输入参数扩展
- * @param {import("../../main").Program} program 蓝图程序实例
+ * @param {Program} program 蓝图程序实例
  */
 export var PluginEditorInnerInput = (program) => {
   program.hooks.add('node-render-input', ({ state, node, expand, render }) => {
@@ -100,8 +101,9 @@ export var PluginEditorInnerInput = (program) => {
     if (type.inputModule) {
       expand.push(type.inputModule(node.attrs.forms[state.index], (val) => {
         node.attrs.forms[state.index] = val;
+        node.hooks.trigger('node-forms-update', { node: node, key: state.index, value: val });
         render({});
-      }));
+      }, state.define));
     }
   });
 };

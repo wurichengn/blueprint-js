@@ -15,6 +15,13 @@ export var PluginBase = function(program) {
   program.addType('string', { name: '字符串', inputModule: (val, cb) => {
     return <input className={Styles.input} type='text' key='string' value={val} onChange={e => { cb(e.target.value); }} />;
   } });
+  program.addType('select', { name: '选项', inputModule: (val, cb, define) => {
+    var args = [];
+    for (var i in define.args) {
+      args.push(<option key={i} value={i}>{define.args[i]}</option>);
+    }
+    return <select className={Styles.input} type='text' key='select' value={val} onChange={e => { cb(e.target.value); }}>{args}</select>;
+  } });
   program.addType('color', { name: '颜色', inputModule: (val, cb) => {
     return <input className={Styles.color} type='color' key='color' value={val} onChange={e => { cb(e.target.value); }} />;
   } });

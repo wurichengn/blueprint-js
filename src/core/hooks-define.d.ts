@@ -87,6 +87,16 @@ declare global {
       /**节点要保存的数据 */
       saveData:*
     })=>{}
+
+    /**节点表单更新时触发 */
+    "node-forms-update":(e:{
+      /**表单被更新的节点 */
+      node:BluePrintNode,
+      /**被更新的表单项下标 */
+      key:string,
+      /** 新的值 */
+      value:any
+    })=>{}
   }
 }
 

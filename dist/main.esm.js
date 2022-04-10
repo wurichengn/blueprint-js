@@ -2379,7 +2379,7 @@ var PluginEditor = function PluginEditor(program) {
 };
 /**
  * 编辑器下组件内输入参数扩展
- * @param {import("../../main").Program} program 蓝图程序实例
+ * @param {Program} program 蓝图程序实例
  */
 
 var PluginEditorInnerInput = function PluginEditorInnerInput(program) {
@@ -2398,6 +2398,11 @@ var PluginEditorInnerInput = function PluginEditorInnerInput(program) {
     if (type.inputModule) {
       expand.push(type.inputModule(node.attrs.forms[state.index], function (val) {
         node.attrs.forms[state.index] = val;
+        node.hooks.trigger("node-forms-update", {
+          node: node,
+          key: state.index,
+          value: val
+        });
         render({});
       }));
     }

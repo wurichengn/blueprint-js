@@ -99,6 +99,9 @@ var Input = function(props) {
         pointerClass.push(Styles.active);
       }
     }
+    if (store.define.disable_link) {
+      pointerClass.push(Styles.hidden);
+    }
 
     return <div className={Styles.Input}>
       <div ref={refPointer} className={pointerClass.join(' ')} onMouseUp={e => { store.linkToActionPointer(); }}/>

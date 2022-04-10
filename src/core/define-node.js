@@ -1,3 +1,4 @@
+import { BluePrintNode } from './node';
 
 /** 蓝图输入的定义 */
 export class BluePrintInputDefine {
@@ -9,6 +10,12 @@ export class BluePrintInputDefine {
   many = false;
   /** 输入的默认值 */
   default = null;
+  /** 是否禁用连接输入 */
+  disable_link = false;
+  /** @type {(e:{node:BluePrintNode,key:string,value:*})=>{}} 值改变回调函数 */
+  onChange = null;
+  /** @type {(e:{node:BluePrintNode,key:string,args:*})=>{}} 值构造结束后回调 */
+  onBuild = null;
   /** 在多输入情况下是否有顺序要求 */
   // orderly = false;
 }

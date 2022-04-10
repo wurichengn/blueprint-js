@@ -56,7 +56,10 @@ export var UIMap = (props) => {
     });
 
     return <MapContext.Provider value={{ state: state }}>
-      <div ref={ref} style={{ backgroundPosition: `${state.position.x * state.scale}px ${state.position.y * state.scale}px` }} className={Styles.Map}>
+      <div ref={ref} style={{
+        backgroundPosition: `${state.position.x * state.scale}px ${state.position.y * state.scale}px`,
+        backgroundSize: `${40 * state.scale}px ${40 * state.scale}px`
+      }} className={Styles.Map}>
         <div ref={refBG} className={Styles.bg} />
         <UILinks />
         <div ref={refNodes} style={{ marginLeft: state.position.x + 'px', marginTop: state.position.y + 'px', zoom: state.scale }} className={Styles.nodes}>{nodes}</div>
