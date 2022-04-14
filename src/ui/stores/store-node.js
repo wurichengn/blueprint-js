@@ -20,8 +20,24 @@ export class StoreNode {
     makeObservable(this);
     // 初始化处理
     this.updateDefine();
+
+    // 关联处理
+    var updateLink = e => {
+      if (e && e.key) {
+        this.inputs[e.key].updateLinks();
+      } else {
+        for (var i in this.inputs) {
+          this.inputs[i].updateLinks();
+        }
+      }
+    };
+    node.hooks.add('node-set-link', updateLink);
+    node.hooks.add('node-delete-link', updateLink);
+
+    // 更新定义处理
     node.hooks.add('node-update-define', () => {
       this.updateDefine();
+      updateLink();
     });
   }
 
@@ -45,7 +61,7 @@ export class StoreNode {
   /** @type {import("../../main").BluePrintNode} 单个节点的数据 */
   @observable node;
 
-  /** 输入状态表 */
+  /** @type {{[key:string]:StoreInput}} 输入状态表 */
   @observable inputs = {};
   /** 输出状态表 */
   @observable outputs = {};
@@ -73,7 +89,7 @@ export class StoreNode {
   getLinks() {
     var re = [];
     for (var i in this.inputs) {
-      re.push(this.inputs[i].getLinks());
+      re.push(this.inputs[i].links);
     }
     return re;
   }
@@ -90,6 +106,7 @@ export class StoreInput {
     this.index = index;
     this.node = node;
     this.define = node.define.inputs[index] || {};
+    this.updateLinks();
   }
 
   /** 下标 */
@@ -116,26 +133,32 @@ export class StoreInput {
     // this.node.node.attrs.links[this.index] = { uid: pointer.node.uid, key: pointer.key };
   }
 
-  getLinks() {
+  /** 当前的关联项集合 */
+  @observable links = [];
+
+  /** 同步当前输入的关联项 */
+  updateLinks() {
     var re = [];
     this.node.node.links(this.index).forEach((out, index) => {
-      var node = this.node.map.nodes.find(node => node.uid === out.uid);
-      var ps = node.outputs[out.key].pos;
-      var pe = this.pos;
-      // 计算唯一ID
-      var key = this.node.uid + ':' + this.index + ':' + node.uid + ':' + node.outputs[out.key];
-      // 右键菜单回调
-      var menuData = () => {
-        return [['删除关联', () => {
-          delete this.node.node.deleteLink(this.index, index);
+      re.push({
+        /** 起点获取方法 */
+        ps: () => {
+          var node = this.node.map.nodes.find(node => node.uid === out.uid);
+          return node.outputs[out.key].pos;
+        },
+        /** 终点位置 */
+        pe: this.pos,
+        /** 唯一key */
+        key: this.node.uid + ':' + this.index + ':' + out.uid + ':' + out.key,
+        /** 删除关联的处理方法 */
+        delete: () => {
+          this.node.node.deleteLink(this.index, index);
           // TODO:暂时使用这种方案刷新
           this.pos.x += 0.00001 * (Math.random() - 0.5);
-        }]];
-      };
-      // 加入关联数据
-      re.push({ ps, pe, key, menuData });
+        }
+      });
     });
-    return re;
+    this.links = re;
   }
 }
 

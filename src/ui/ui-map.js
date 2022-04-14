@@ -1,6 +1,6 @@
 import { configure } from 'mobx';
 import { useLocalObservable, useObserver } from 'mobx-react';
-import { memo, useRef } from 'react';
+import { memo, useCallback, useRef, useState } from 'react';
 import { useContext, useEffect } from 'react';
 import { useContextMenu } from './hooks/hook-contextmenu';
 import { useDomEvent, useMouseDrag } from './hooks/hook-event';
@@ -27,6 +27,7 @@ export var UIMap = (props) => {
   var refNodes = useRef();
   /** 扩展渲染的节点 */
   var expand = [];
+  var [mapData] = useState({ state: state });
   // 触发渲染钩子
   state.program.hooks.triggerSync('map-render', { ref: ref, state: state, refBG, refNodes, expand });
 
@@ -55,7 +56,7 @@ export var UIMap = (props) => {
       return <UINode node={node} key={node.uid} />;
     });
 
-    return <MapContext.Provider value={{ state: state }}>
+    return <MapContext.Provider value={mapData}>
       <div ref={ref} style={{
         backgroundPosition: `${state.position.x * state.scale}px ${state.position.y * state.scale}px`,
         backgroundSize: `${40 * state.scale}px ${40 * state.scale}px`
@@ -76,8 +77,7 @@ var UILinks = memo(function() {
   return useObserver(() => {
     // 关联内容
     var lines = state.nodes.map(node => node.getLinks()).flat(5).map(v => {
-      v.pe.x;
-      return <Line key={v.key} ps={v.ps} pe={v.pe} menuData={v.menuData}/>;
+      return <Line key={v.key} ps={v.ps()} pe={v.pe} delete={v.delete}/>;
     });
 
     // 加入当前关联操作
@@ -100,28 +100,28 @@ var UILinks = memo(function() {
  * @param {{ps:{x:number,y:number},pe:{x:number,y:number}}} props 关联线参数
  * @returns
  */
-var Line = memo(function(props) {
+var Line = memo((props) => {
+  /** 获取图状态 */
   var state = useContext(MapContext).state;
-  var p1 = { ...props.ps };
-  var p2 = { ...props.pe };
-  p1.x *= state.scale;
-  p1.y *= state.scale;
-  p2.x *= state.scale;
-  p2.y *= state.scale;
-  var c = { x: (p2.x + p1.x) / 2, y: (p2.y + p1.y) / 2 };
+  /** 交互用ref */
   var ref = useRef();
-
   // 右键菜单功能
   useContextMenu({ ref, menuData: async() => {
-    var menu = [];
-    if (props.menuData)menu = props.menuData() || [];
-    return menu;
+    return [['删除关联', props.delete]];
   } });
 
-  /** 曲线偏移量 */
-  var offset = 40 * state.scale;
-
   return useObserver(() => {
+    state.refOrigin;
+    var p1 = { ...props.ps };
+    var p2 = { ...props.pe };
+    p1.x *= state.scale;
+    p1.y *= state.scale;
+    p2.x *= state.scale;
+    p2.y *= state.scale;
+    var c = { x: (p2.x + p1.x) / 2, y: (p2.y + p1.y) / 2 };
+    /** 曲线偏移量 */
+    var offset = 40 * state.scale;
+
     return <>
       <path ref={ref} className={Styles.linebg} d={'M' + p1.x + ',' + p1.y + ' Q' + (p1.x + offset) + ',' + p1.y + ',' + c.x + ',' + c.y + ' T' + p2.x + ',' + p2.y} />
       <path className={Styles.line} d={'M' + p1.x + ',' + p1.y + ' Q' + (p1.x + offset) + ',' + p1.y + ',' + c.x + ',' + c.y + ' T' + p2.x + ',' + p2.y} />

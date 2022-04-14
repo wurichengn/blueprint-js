@@ -195,6 +195,8 @@ export class BluePrintNode {
       // 直接设置关联项
       this.attrs.links[key] = link;
     }
+    // 触发添加关联项消息
+    this.hooks.trigger('node-set-link', { node: this, key: key, link: link });
   }
 
   /**
@@ -208,6 +210,9 @@ export class BluePrintNode {
     } else {
       delete this.attrs.links[key];
     }
+
+    // 触发添加关联项消息
+    this.hooks.trigger('node-delete-link', { node: this, key: key, index });
   }
 
   /** 序列化当前节点的数据 */

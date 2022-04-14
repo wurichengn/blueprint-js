@@ -37,9 +37,14 @@ export var UINode = memo(function(/** @type {{node:StoreNode}} */props) {
     // 输入节点
     var inputs = state.inputs;
     var inputDoms = [];
-    for (var key in inputs) {
-      inputs[key];
-      inputDoms.push(<Input store={inputs[key]} key={key} />);
+    if (false) {
+      for (var key in inputs) {
+        inputs[key].pos = { x: state.x, y: state.y + 12 };
+      }
+    } else {
+      for (var key in inputs) {
+        inputDoms.push(<Input store={inputs[key]} key={key} />);
+      }
     }
 
     // 输出节点
@@ -73,7 +78,7 @@ var Input = function(props) {
   /** 全局状态 */
   var state = useContext(MapContext).state;
   var store = props.store;
-  var [rstate, render] = useState();
+  var [, render] = useState();
   var refPointer = useRef();
   var ref = useRef();
   /** 额外渲染内容 */
@@ -87,10 +92,12 @@ var Input = function(props) {
     var pos = state.getDomViewPosition(refPointer.current);
     pos.x += 6;
     pos.y += 6;
-    store.pos = pos;
+    store.pos.x = pos.x;
+    store.pos.y = pos.y;
   });
 
   return useObserver(() => {
+    state.refOrigin;
     /** 连接点样式 */
     var pointerClass = [Styles.pointer];
     if (state.actionPointer && state.actionPointer.type === 'output') {
@@ -128,10 +135,12 @@ var Output = function(props) {
     var pos = state.getDomViewPosition(refPointer.current);
     pos.x += 6;
     pos.y += 6;
-    store.pos = pos;
+    store.pos.x = pos.x;
+    store.pos.y = pos.y;
   });
 
   return useObserver(() => {
+    state.refOrigin;
     return <div className={Styles.Output}>
       <div className={Styles.pointer} ref={refPointer}
         onMouseDown={e => {

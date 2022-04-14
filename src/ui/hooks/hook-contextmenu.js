@@ -34,7 +34,7 @@ export var useContextMenu = function(cfg) {
       globalState.menus = menuData;
       globalState.subState = null;
     });
-  });
+  }, []);
 };
 
 // =======================菜单组件的实现===========================

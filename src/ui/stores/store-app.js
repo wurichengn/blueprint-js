@@ -49,7 +49,7 @@ export class StoreMap {
   }
 
   /** @type {HTMLDivElement} 节点原点节点 */
-  refOrigin;
+  @observable refOrigin;
   /** 获取宽高 */
   @observable viewSize = { width: 0, height: 0 };
   /** 视图原点屏幕坐标 */
