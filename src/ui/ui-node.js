@@ -15,33 +15,46 @@ export var UINode = memo(function(/** @type {{node:StoreNode}} */props) {
   // ref初始化
   var ref = useRef();
   var refTitle = useRef();
+  var [, render] = useState();
 
   /** 当前节点的状态机 */
   var state = props.node;
   /** 节点的额外渲染内容 */
   var expand = [];
 
+  // 输入节点收起渲染
+  var inputs = state.inputs;
+  useEffect(() => {
+    if (state.isClose) {
+      for (var key in inputs) {
+        inputs[key].pos.x = state.x;
+        inputs[key].pos.y = state.y + 12;
+      }
+    }
+  });
+
   // 触发节点渲染
-  state.node.hooks.triggerSync('node-render', { state: state, ref, refTitle, node: state.node, expand });
+  state.node.hooks.triggerSync('node-render', { state: state, ref, refTitle, node: state.node, expand, render: () => { render({}); } });
 
   return useObserver(() => {
     /** 节点样式 */
     var style = {
       left: state.x + 'px',
-      top: state.y + 'px'
+      top: state.y + 'px',
+      zIndex: state.isClose ? 0 : 1
     };
 
+    // 选中的面板层级增加
+    if (state.isSelect) {
+      style.zIndex += 2;
+    }
+
     // 触发节点渲染Observer
-    state.node.hooks.triggerSync('node-render-observer', { state: state, ref, refTitle, node: state.node, expand });
+    state.node.hooks.triggerSync('node-render-observer', { state: state, ref, refTitle, node: state.node, expand, render: () => { render({}); } });
 
     // 输入节点
-    var inputs = state.inputs;
     var inputDoms = [];
-    if (false) {
-      for (var key in inputs) {
-        inputs[key].pos = { x: state.x, y: state.y + 12 };
-      }
-    } else {
+    if (!state.isClose) {
       for (var key in inputs) {
         inputDoms.push(<Input store={inputs[key]} key={key} />);
       }
@@ -62,7 +75,10 @@ export var UINode = memo(function(/** @type {{node:StoreNode}} */props) {
 
     return <NodeContext.Provider value={{ state: state }}>
       <div style={style} ref={ref} className={classList.join(' ')}>
-        <div ref={refTitle} style={{ backgroundColor: state.color }} className={Styles.title}>{state.node.getNodeName()}</div>
+        <div ref={refTitle} style={{ backgroundColor: state.color }} className={Styles.title}>
+          <div className={Styles.switch} onClick={() => { state.setClose(!state.isClose); }}>{state.isClose ? '+' : '-'}</div>
+          {state.node.getNodeName()}
+        </div>
         <div className={Styles.group} >{expand}{inputDoms}{outputDoms}</div>
       </div>
     </NodeContext.Provider>;

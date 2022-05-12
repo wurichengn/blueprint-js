@@ -5,7 +5,7 @@ import { usePluginMapMenu } from './plugin-map-menu';
 
 /**
  * 编辑器情况下需要使用的扩展逻辑
- * @param {import("../../main").Program} program 蓝图程序实例
+ * @param {import("../../main").BluePrintProgram} program 蓝图程序实例
  */
 export var PluginEditor = (program) => {
   // 拓扑图编辑器渲染扩展
@@ -15,6 +15,16 @@ export var PluginEditor = (program) => {
       state.position.x += e.x / state.scale;
       state.position.y += e.y / state.scale;
     }, ref: refBG });
+    useMouseDrag({
+      button: 2,
+      onmousedown: e => {
+        console.log(e);
+      },
+      onmousemove: e => {
+        console.log(e);
+      },
+      ref: refBG
+    });
     // 右键菜单功能
     usePluginMapMenu(refBG, state);
     // 鼠标滚轮功能
@@ -28,7 +38,7 @@ export var PluginEditor = (program) => {
   });
 
   // 单个节点渲染功能扩展
-  program.hooks.add('node-render', ({ refTitle, state }) => {
+  program.hooks.add('node-render', ({ refTitle, state, render }) => {
     // 鼠标是否有拖动
     var mouseMoveEnd = false;
     // 绑定鼠标拖动功能
@@ -67,6 +77,11 @@ export var PluginEditor = (program) => {
     // 绑定鼠标右键功能
     useContextMenu({ ref: refTitle, menuData() {
       var menuData = [
+        ['修改名称', () => {
+          var name = prompt('请输入要修改的名称', state.node.getNodeName());
+          state.node.attrs.name = name;
+          render();
+        }],
         ['删除节点', () => {
           if (state.isSelect) {
             for (var i = state.map.nodes.length - 1; i >= 0; i--) {

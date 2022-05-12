@@ -105,6 +105,7 @@ export class BluePrintNode {
 
   /** 获取实例名称 */
   getNodeName() {
+    if (this.attrs.name) return this.attrs.name;
     if (this.define.name) return this.define.name;
     if (this.constructor.menu) {
       var menu = this.constructor.menu;

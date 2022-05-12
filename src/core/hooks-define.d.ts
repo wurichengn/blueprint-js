@@ -49,7 +49,9 @@ declare global {
       /**节点标题的ref */
       refTitle:Ref<HTMLDivElement>,
       /**图的扩展渲染内容集合 */
-      expand:[]
+      expand:[],
+      /**触发组件重渲染 */
+      render:()=>{}
     })=>{};
 
     /**节点渲染时触发，在observer内部,node-render之后 */
@@ -63,7 +65,9 @@ declare global {
       /**节点标题的ref */
       refTitle:Ref<HTMLDivElement>,
       /**图的扩展渲染内容集合 */
-      expand:[]
+      expand:[],
+      /**触发组件重渲染 */
+      render:()=>{}
     })=>{};
     
     /**节点的输入组件渲染时 */

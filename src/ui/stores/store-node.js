@@ -17,6 +17,7 @@ export class StoreNode {
     this.x = node.attrs.x || 0;
     this.y = node.attrs.y || 0;
     this.define = node.define;
+    this.isClose = node.attrs.isClose;
     makeObservable(this);
     // 初始化处理
     this.updateDefine();
@@ -55,6 +56,9 @@ export class StoreNode {
   /** 节点在图中的位置Y */
   @observable y = 0;
 
+  /** 当前是否是收起状态 */
+  @observable isClose = false;
+
   /** @type {NodeDefine} 节点当前的定义信息 */
   @observable define = {};
 
@@ -92,6 +96,14 @@ export class StoreNode {
       re.push(this.inputs[i].links);
     }
     return re;
+  }
+
+  /**
+   * 设置是否收起
+   * @param {boolean} close 是否收起
+   */
+  setClose(close) {
+    this.node.attrs.isClose = this.isClose = close;
   }
 }
 
@@ -144,6 +156,7 @@ export class StoreInput {
         /** 起点获取方法 */
         ps: () => {
           var node = this.node.map.nodes.find(node => node.uid === out.uid);
+          if (node == null) return { x: 0, y: 0 };
           return node.outputs[out.key].pos;
         },
         /** 终点位置 */

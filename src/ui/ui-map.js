@@ -57,8 +57,8 @@ export var UIMap = (props) => {
     });
 
     return <MapContext.Provider value={mapData}>
-      <div ref={ref} style={{
-        backgroundPosition: `${state.position.x * state.scale}px ${state.position.y * state.scale}px`,
+      <div ref={ref} onContextMenu={e => { e.preventDefault(); }} style={{
+        backgroundPosition: `${state.position.x * state.scale + state.viewSize.width / 2}px ${state.position.y * state.scale + state.viewSize.height / 2}px`,
         backgroundSize: `${40 * state.scale}px ${40 * state.scale}px`
       }} className={Styles.Map}>
         <div ref={refBG} className={Styles.bg} />

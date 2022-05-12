@@ -23,8 +23,22 @@ export var useContextMenu = function(cfg) {
     var config = new useContextMenuConfig();
     for (var i in cfg)config[i] = cfg[i];
 
+    /** 按下起点 */
+    var sp = null;
+
     // 事件侦听
-    config.ref.current.addEventListener('contextmenu', async e => {
+    config.ref.current.addEventListener('mousedown', async e => {
+      sp = { x: e.x, y: e.y };
+    });
+
+    // 事件侦听
+    config.ref.current.addEventListener('mouseup', async e => {
+      if (sp == null) return;
+      if (sp.x !== e.x || sp.y !== e.y) {
+        sp = null;
+        return;
+      }
+      sp = null;
       lastEvent = e;
       await initMenu();
       e.preventDefault();

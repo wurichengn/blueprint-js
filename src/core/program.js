@@ -125,7 +125,11 @@ export class Program {
     }
     // 添加节点
     data.nodes.forEach(node => {
-      this.addNode(new this.modules[node.type](this, node));
+      if (this.modules[node.type]) {
+        this.addNode(new this.modules[node.type](this, node));
+      } else {
+        console.warn(`载入数据中出现了未定义组件[${node.type}]`);
+      }
     });
   }
 }
