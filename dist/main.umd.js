@@ -2153,15 +2153,14 @@
                 return node.uid === out.uid;
               });
 
-              if (node == null) return {
-                x: 0,
-                y: 0
-              };
+              if (node == null) return null;
               return node.outputs[out.key].pos;
             },
 
             /** 终点位置 */
-            pe: _this2.pos,
+            pe: function pe() {
+              return _this2.pos;
+            },
 
             /** 唯一key */
             key: _this2.node.uid + ':' + _this2.index + ':' + out.uid + ':' + out.key,
@@ -2604,12 +2603,8 @@
       });
       useMouseDrag({
         button: 2,
-        onmousedown: function onmousedown(e) {
-          console.log(e);
-        },
-        onmousemove: function onmousemove(e) {
-          console.log(e);
-        },
+        onmousedown: function onmousedown(e) {},
+        onmousemove: function onmousemove(e) {},
         ref: refBG
       }); // 右键菜单功能
 
@@ -2950,7 +2945,7 @@
       store.pos.y = pos.y;
     });
     return mobxReact.useObserver(function () {
-      state.refOrigin;
+      [state.viewSize.width, state.viewSize.height];
       /** 连接点样式 */
 
       var pointerClass = [Styles$1.pointer];
@@ -3002,7 +2997,7 @@
       store.pos.y = pos.y;
     });
     return mobxReact.useObserver(function () {
-      state.refOrigin;
+      [state.viewSize.width, state.viewSize.height];
       return /*#__PURE__*/React__default["default"].createElement("div", {
         className: Styles$1.Output
       }, /*#__PURE__*/React__default["default"].createElement("div", {
@@ -3126,12 +3121,10 @@
       // 关联内容
       var lines = state.nodes.map(function (node) {
         return node.getLinks();
-      }).flat(5).map(function (v) {
+      }).flat(5).map(function (link) {
         return /*#__PURE__*/React__default["default"].createElement(Line, {
-          key: v.key,
-          ps: v.ps(),
-          pe: v.pe,
-          "delete": v["delete"]
+          key: link.key,
+          link: link
         });
       }); // 加入当前关联操作
 
@@ -3158,11 +3151,11 @@
   });
   /**
    * 单根关联线渲染
-   * @param {{ps:{x:number,y:number},pe:{x:number,y:number}}} props 关联线参数
+   * @param {{link:*}} props 关联线参数
    * @returns
    */
 
-  var Line = /*#__PURE__*/React.memo(function (props) {
+  var Line = /*#__PURE__*/React.memo(mobxReact.observer(function (props) {
     /** 获取图状态 */
     var state = React.useContext(MapContext).state;
     /** 交互用ref */
@@ -3177,7 +3170,7 @@
             while (1) {
               switch (_context.prev = _context.next) {
                 case 0:
-                  return _context.abrupt("return", [['删除关联', props["delete"]]]);
+                  return _context.abrupt("return", [['删除关联', props.link["delete"]]]);
 
                 case 1:
                 case "end":
@@ -3194,34 +3187,34 @@
         return menuData;
       }()
     });
-    return mobxReact.useObserver(function () {
-      state.refOrigin;
+    state.viewSize.width;
+    state.viewSize.height;
+    if (props.link.ps() == null) return /*#__PURE__*/React__default["default"].createElement(React__default["default"].Fragment, null);
 
-      var p1 = _objectSpread({}, props.ps);
+    var p1 = _objectSpread({}, props.link.ps());
 
-      var p2 = _objectSpread({}, props.pe);
+    var p2 = _objectSpread({}, props.link.pe());
 
-      p1.x *= state.scale;
-      p1.y *= state.scale;
-      p2.x *= state.scale;
-      p2.y *= state.scale;
-      var c = {
-        x: (p2.x + p1.x) / 2,
-        y: (p2.y + p1.y) / 2
-      };
-      /** 曲线偏移量 */
+    p1.x *= state.scale;
+    p1.y *= state.scale;
+    p2.x *= state.scale;
+    p2.y *= state.scale;
+    var c = {
+      x: (p2.x + p1.x) / 2,
+      y: (p2.y + p1.y) / 2
+    };
+    /** 曲线偏移量 */
 
-      var offset = 40 * state.scale;
-      return /*#__PURE__*/React__default["default"].createElement(React__default["default"].Fragment, null, /*#__PURE__*/React__default["default"].createElement("path", {
-        ref: ref,
-        className: Styles.linebg,
-        d: 'M' + p1.x + ',' + p1.y + ' Q' + (p1.x + offset) + ',' + p1.y + ',' + c.x + ',' + c.y + ' T' + p2.x + ',' + p2.y
-      }), /*#__PURE__*/React__default["default"].createElement("path", {
-        className: Styles.line,
-        d: 'M' + p1.x + ',' + p1.y + ' Q' + (p1.x + offset) + ',' + p1.y + ',' + c.x + ',' + c.y + ' T' + p2.x + ',' + p2.y
-      }));
-    });
-  });
+    var offset = 40 * state.scale;
+    return /*#__PURE__*/React__default["default"].createElement(React__default["default"].Fragment, null, /*#__PURE__*/React__default["default"].createElement("path", {
+      ref: ref,
+      className: Styles.linebg,
+      d: 'M' + p1.x + ',' + p1.y + ' Q' + (p1.x + offset) + ',' + p1.y + ',' + c.x + ',' + c.y + ' T' + p2.x + ',' + p2.y
+    }), /*#__PURE__*/React__default["default"].createElement("path", {
+      className: Styles.line,
+      d: 'M' + p1.x + ',' + p1.y + ' Q' + (p1.x + offset) + ',' + p1.y + ',' + c.x + ',' + c.y + ' T' + p2.x + ',' + p2.y
+    }));
+  }));
 
   /** 蓝图编辑器容器 */
 

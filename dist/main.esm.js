@@ -14,7 +14,7 @@ import _initializerDefineProperty from '@babel/runtime/helpers/initializerDefine
 import _applyDecoratedDescriptor from '@babel/runtime/helpers/applyDecoratedDescriptor';
 import '@babel/runtime/helpers/initializerWarningHelper';
 import { observable, makeObservable, action, intercept, configure } from 'mobx';
-import { useObserver, useLocalObservable } from 'mobx-react';
+import { useObserver, observer, useLocalObservable } from 'mobx-react';
 import ReactDOM from 'react-dom';
 import _typeof from '@babel/runtime/helpers/typeof';
 import _slicedToArray from '@babel/runtime/helpers/slicedToArray';
@@ -2149,15 +2149,14 @@ var StoreInput = (_class3 = /*#__PURE__*/function () {
               return node.uid === out.uid;
             });
 
-            if (node == null) return {
-              x: 0,
-              y: 0
-            };
+            if (node == null) return null;
             return node.outputs[out.key].pos;
           },
 
           /** 终点位置 */
-          pe: _this2.pos,
+          pe: function pe() {
+            return _this2.pos;
+          },
 
           /** 唯一key */
           key: _this2.node.uid + ':' + _this2.index + ':' + out.uid + ':' + out.key,
@@ -2600,12 +2599,8 @@ var PluginEditor = function PluginEditor(program) {
     });
     useMouseDrag({
       button: 2,
-      onmousedown: function onmousedown(e) {
-        console.log(e);
-      },
-      onmousemove: function onmousemove(e) {
-        console.log(e);
-      },
+      onmousedown: function onmousedown(e) {},
+      onmousemove: function onmousemove(e) {},
       ref: refBG
     }); // 右键菜单功能
 
@@ -2946,7 +2941,7 @@ var Input = function Input(props) {
     store.pos.y = pos.y;
   });
   return useObserver(function () {
-    state.refOrigin;
+    [state.viewSize.width, state.viewSize.height];
     /** 连接点样式 */
 
     var pointerClass = [Styles$1.pointer];
@@ -2998,7 +2993,7 @@ var Output = function Output(props) {
     store.pos.y = pos.y;
   });
   return useObserver(function () {
-    state.refOrigin;
+    [state.viewSize.width, state.viewSize.height];
     return /*#__PURE__*/React.createElement("div", {
       className: Styles$1.Output
     }, /*#__PURE__*/React.createElement("div", {
@@ -3122,12 +3117,10 @@ var UILinks = /*#__PURE__*/memo(function () {
     // 关联内容
     var lines = state.nodes.map(function (node) {
       return node.getLinks();
-    }).flat(5).map(function (v) {
+    }).flat(5).map(function (link) {
       return /*#__PURE__*/React.createElement(Line, {
-        key: v.key,
-        ps: v.ps(),
-        pe: v.pe,
-        "delete": v["delete"]
+        key: link.key,
+        link: link
       });
     }); // 加入当前关联操作
 
@@ -3154,11 +3147,11 @@ var UILinks = /*#__PURE__*/memo(function () {
 });
 /**
  * 单根关联线渲染
- * @param {{ps:{x:number,y:number},pe:{x:number,y:number}}} props 关联线参数
+ * @param {{link:*}} props 关联线参数
  * @returns
  */
 
-var Line = /*#__PURE__*/memo(function (props) {
+var Line = /*#__PURE__*/memo(observer(function (props) {
   /** 获取图状态 */
   var state = useContext(MapContext).state;
   /** 交互用ref */
@@ -3173,7 +3166,7 @@ var Line = /*#__PURE__*/memo(function (props) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                return _context.abrupt("return", [['删除关联', props["delete"]]]);
+                return _context.abrupt("return", [['删除关联', props.link["delete"]]]);
 
               case 1:
               case "end":
@@ -3190,34 +3183,34 @@ var Line = /*#__PURE__*/memo(function (props) {
       return menuData;
     }()
   });
-  return useObserver(function () {
-    state.refOrigin;
+  state.viewSize.width;
+  state.viewSize.height;
+  if (props.link.ps() == null) return /*#__PURE__*/React.createElement(React.Fragment, null);
 
-    var p1 = _objectSpread({}, props.ps);
+  var p1 = _objectSpread({}, props.link.ps());
 
-    var p2 = _objectSpread({}, props.pe);
+  var p2 = _objectSpread({}, props.link.pe());
 
-    p1.x *= state.scale;
-    p1.y *= state.scale;
-    p2.x *= state.scale;
-    p2.y *= state.scale;
-    var c = {
-      x: (p2.x + p1.x) / 2,
-      y: (p2.y + p1.y) / 2
-    };
-    /** 曲线偏移量 */
+  p1.x *= state.scale;
+  p1.y *= state.scale;
+  p2.x *= state.scale;
+  p2.y *= state.scale;
+  var c = {
+    x: (p2.x + p1.x) / 2,
+    y: (p2.y + p1.y) / 2
+  };
+  /** 曲线偏移量 */
 
-    var offset = 40 * state.scale;
-    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("path", {
-      ref: ref,
-      className: Styles.linebg,
-      d: 'M' + p1.x + ',' + p1.y + ' Q' + (p1.x + offset) + ',' + p1.y + ',' + c.x + ',' + c.y + ' T' + p2.x + ',' + p2.y
-    }), /*#__PURE__*/React.createElement("path", {
-      className: Styles.line,
-      d: 'M' + p1.x + ',' + p1.y + ' Q' + (p1.x + offset) + ',' + p1.y + ',' + c.x + ',' + c.y + ' T' + p2.x + ',' + p2.y
-    }));
-  });
-});
+  var offset = 40 * state.scale;
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("path", {
+    ref: ref,
+    className: Styles.linebg,
+    d: 'M' + p1.x + ',' + p1.y + ' Q' + (p1.x + offset) + ',' + p1.y + ',' + c.x + ',' + c.y + ' T' + p2.x + ',' + p2.y
+  }), /*#__PURE__*/React.createElement("path", {
+    className: Styles.line,
+    d: 'M' + p1.x + ',' + p1.y + ' Q' + (p1.x + offset) + ',' + p1.y + ',' + c.x + ',' + c.y + ' T' + p2.x + ',' + p2.y
+  }));
+}));
 
 /** 蓝图编辑器容器 */
 
