@@ -156,11 +156,13 @@ export class StoreInput {
         /** 起点获取方法 */
         ps: () => {
           var node = this.node.map.nodes.find(node => node.uid === out.uid);
-          if (node == null) return { x: 0, y: 0 };
+          if (node == null) return null;
           return node.outputs[out.key].pos;
         },
         /** 终点位置 */
-        pe: this.pos,
+        pe: () => {
+          return this.pos;
+        },
         /** 唯一key */
         key: this.node.uid + ':' + this.index + ':' + out.uid + ':' + out.key,
         /** 删除关联的处理方法 */

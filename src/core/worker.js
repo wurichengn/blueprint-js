@@ -2,6 +2,17 @@ import { BluePrintNode } from './node';
 import { NodeDefine } from './node';
 import { Program } from './program';
 
+/** 运行参数 */
+class RunProps {
+  /** @type {(e:{node:BluePrintNode,messages:[]})=>{}} 日志输出回调 */
+  onLog;
+  /** @type {(e:{node:BluePrintNode})=>{}} 节点即将开始运行回调 */
+  onNodeRun;
+  /** @type {(e:{node:BluePrintNode,output:*})=>{}} 节点运行结束回调 */
+  onNodeEnd;
+}
+
+/** 蓝图任务 */
 export class BluePrintWorker {
   /**
    * @param {BluePrintNode} node
@@ -24,12 +35,17 @@ export class BluePrintWorker {
   /** 各个节点的输出结果记录表 */
   outputs = {};
 
-  /** 运行一次 */
-  async run() {
+  /**
+   * 运行一次任务
+   * @param {RunProps} props 运行参数
+   * @returns
+   */
+  async run(props = {}) {
     // 运行中检测
     if (this.running) {
       return console.warn('上一次任务正在运行中');
     }
+
     // 进入运行状态
     this.running = true;
     /** 节点运行队列 */
@@ -48,12 +64,25 @@ export class BluePrintWorker {
         if (this.program.nodesMap[uid].define.outputs[key].default) return output;
         return output[key];
       });
-      // 运行节点
-      var output = node.run(args);
-      // 异步兼容
-      if (output instanceof Promise) {
-        output = await output;
+      // 日志截取
+      var dispose = node.hooks.add('node-log', e => props.onLog && props.onLog(e));
+      try {
+        // 触发运行回调
+        props.onNodeRun && props.onNodeRun({ node });
+        // 运行节点
+        var output = node.run(args);
+        // 异步兼容
+        if (output instanceof Promise) {
+          output = await output;
+        }
+        // 触发结束回调
+        props.onNodeEnd && props.onNodeEnd({ node, output });
+      } catch (e) {
+        dispose();
+        this.running = false;
+        throw e;
       }
+      dispose();
       // 更新输出
       this.outputs[node.uid] = output;
     }

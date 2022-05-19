@@ -1,6 +1,6 @@
 import { useObserver } from 'mobx-react';
 import { memo, useContext, useEffect, useState } from 'react';
-import { useRef } from 'react/cjs/react.development';
+import { useRef } from 'react';
 import { BluePrintInputDefine, BluePrintOutputDefine } from '../core/define-node';
 import { PointerCanLink } from '../utils/utils-base';
 import { StoreInput, StoreNode, StoreOutput } from './stores/store-node';
@@ -113,7 +113,7 @@ var Input = function(props) {
   });
 
   return useObserver(() => {
-    state.refOrigin;
+    [state.viewSize.width, state.viewSize.height];
     /** 连接点样式 */
     var pointerClass = [Styles.pointer];
     if (state.actionPointer && state.actionPointer.type === 'output') {
@@ -156,7 +156,7 @@ var Output = function(props) {
   });
 
   return useObserver(() => {
-    state.refOrigin;
+    [state.viewSize.width, state.viewSize.height];
     return <div className={Styles.Output}>
       <div className={Styles.pointer} ref={refPointer}
         onMouseDown={e => {

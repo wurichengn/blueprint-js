@@ -115,7 +115,7 @@ export class BluePrintNode {
   }
 
   /** 构造当前节点依赖的参数 */
-  buildArgs(outputs) {
+  buildArgs(outputs = () => {}) {
     var args = {};
 
     // 循环处理表单项
@@ -225,6 +225,11 @@ export class BluePrintNode {
     };
     this.hooks.triggerSync('node-save', { saveData: re });
     return re;
+  }
+
+  /** 输出运行日志 */
+  log(...props) {
+    this.hooks.triggerSync('node-log', { node: this, messages: props });
   }
 
   /** @type {string} 节点所在菜单 */

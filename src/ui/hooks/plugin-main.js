@@ -18,10 +18,8 @@ export var PluginEditor = (program) => {
     useMouseDrag({
       button: 2,
       onmousedown: e => {
-        console.log(e);
       },
       onmousemove: e => {
-        console.log(e);
       },
       ref: refBG
     });

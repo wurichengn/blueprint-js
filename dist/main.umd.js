@@ -1,14 +1,15 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@babel/runtime/helpers/classCallCheck'), require('@babel/runtime/helpers/createClass'), require('@babel/runtime/helpers/defineProperty'), require('@babel/runtime/helpers/asyncToGenerator'), require('@babel/runtime/regenerator'), require('react'), require('@babel/runtime/helpers/toConsumableArray'), require('@babel/runtime/helpers/assertThisInitialized'), require('@babel/runtime/helpers/inherits'), require('@babel/runtime/helpers/possibleConstructorReturn'), require('@babel/runtime/helpers/getPrototypeOf'), require('@babel/runtime/helpers/initializerDefineProperty'), require('@babel/runtime/helpers/applyDecoratedDescriptor'), require('@babel/runtime/helpers/initializerWarningHelper'), require('mobx'), require('mobx-react'), require('react-dom'), require('@babel/runtime/helpers/typeof'), require('@babel/runtime/helpers/slicedToArray'), require('react/cjs/react.development'), require('ahooks')) :
-  typeof define === 'function' && define.amd ? define(['exports', '@babel/runtime/helpers/classCallCheck', '@babel/runtime/helpers/createClass', '@babel/runtime/helpers/defineProperty', '@babel/runtime/helpers/asyncToGenerator', '@babel/runtime/regenerator', 'react', '@babel/runtime/helpers/toConsumableArray', '@babel/runtime/helpers/assertThisInitialized', '@babel/runtime/helpers/inherits', '@babel/runtime/helpers/possibleConstructorReturn', '@babel/runtime/helpers/getPrototypeOf', '@babel/runtime/helpers/initializerDefineProperty', '@babel/runtime/helpers/applyDecoratedDescriptor', '@babel/runtime/helpers/initializerWarningHelper', 'mobx', 'mobx-react', 'react-dom', '@babel/runtime/helpers/typeof', '@babel/runtime/helpers/slicedToArray', 'react/cjs/react.development', 'ahooks'], factory) :
-  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.BluePJS = {}, global._classCallCheck, global._createClass, global._defineProperty, global._asyncToGenerator, global._regeneratorRuntime, global.React, global._toConsumableArray, global._assertThisInitialized, global._inherits, global._possibleConstructorReturn, global._getPrototypeOf, global._initializerDefineProperty, global._applyDecoratedDescriptor, null, global.mobx, global.mobxReact, global.ReactDOM, global._typeof, global._slicedToArray, global.react_development, global.ahooks));
-})(this, (function (exports, _classCallCheck, _createClass, _defineProperty, _asyncToGenerator, _regeneratorRuntime, React, _toConsumableArray, _assertThisInitialized, _inherits, _possibleConstructorReturn, _getPrototypeOf, _initializerDefineProperty, _applyDecoratedDescriptor, initializerWarningHelper, mobx, mobxReact, ReactDOM, _typeof, _slicedToArray, react_development, ahooks) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@babel/runtime/helpers/classCallCheck'), require('@babel/runtime/helpers/createClass'), require('@babel/runtime/helpers/defineProperty'), require('lodash'), require('@babel/runtime/helpers/asyncToGenerator'), require('@babel/runtime/regenerator'), require('react'), require('@babel/runtime/helpers/toConsumableArray'), require('@babel/runtime/helpers/assertThisInitialized'), require('@babel/runtime/helpers/inherits'), require('@babel/runtime/helpers/possibleConstructorReturn'), require('@babel/runtime/helpers/getPrototypeOf'), require('@babel/runtime/helpers/initializerDefineProperty'), require('@babel/runtime/helpers/applyDecoratedDescriptor'), require('@babel/runtime/helpers/initializerWarningHelper'), require('mobx'), require('mobx-react'), require('react-dom'), require('@babel/runtime/helpers/typeof'), require('@babel/runtime/helpers/slicedToArray'), require('ahooks')) :
+  typeof define === 'function' && define.amd ? define(['exports', '@babel/runtime/helpers/classCallCheck', '@babel/runtime/helpers/createClass', '@babel/runtime/helpers/defineProperty', 'lodash', '@babel/runtime/helpers/asyncToGenerator', '@babel/runtime/regenerator', 'react', '@babel/runtime/helpers/toConsumableArray', '@babel/runtime/helpers/assertThisInitialized', '@babel/runtime/helpers/inherits', '@babel/runtime/helpers/possibleConstructorReturn', '@babel/runtime/helpers/getPrototypeOf', '@babel/runtime/helpers/initializerDefineProperty', '@babel/runtime/helpers/applyDecoratedDescriptor', '@babel/runtime/helpers/initializerWarningHelper', 'mobx', 'mobx-react', 'react-dom', '@babel/runtime/helpers/typeof', '@babel/runtime/helpers/slicedToArray', 'ahooks'], factory) :
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.BluePJS = {}, global._classCallCheck, global._createClass, global._defineProperty, global._, global._asyncToGenerator, global._regeneratorRuntime, global.React, global._toConsumableArray, global._assertThisInitialized, global._inherits, global._possibleConstructorReturn, global._getPrototypeOf, global._initializerDefineProperty, global._applyDecoratedDescriptor, null, global.mobx, global.mobxReact, global.ReactDOM, global._typeof, global._slicedToArray, global.ahooks));
+})(this, (function (exports, _classCallCheck, _createClass, _defineProperty, _, _asyncToGenerator, _regeneratorRuntime, React, _toConsumableArray, _assertThisInitialized, _inherits, _possibleConstructorReturn, _getPrototypeOf, _initializerDefineProperty, _applyDecoratedDescriptor, initializerWarningHelper, mobx, mobxReact, ReactDOM, _typeof, _slicedToArray, ahooks) { 'use strict';
 
   function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
   var _classCallCheck__default = /*#__PURE__*/_interopDefaultLegacy(_classCallCheck);
   var _createClass__default = /*#__PURE__*/_interopDefaultLegacy(_createClass);
   var _defineProperty__default = /*#__PURE__*/_interopDefaultLegacy(_defineProperty);
+  var ___default = /*#__PURE__*/_interopDefaultLegacy(_);
   var _asyncToGenerator__default = /*#__PURE__*/_interopDefaultLegacy(_asyncToGenerator);
   var _regeneratorRuntime__default = /*#__PURE__*/_interopDefaultLegacy(_regeneratorRuntime);
   var React__default = /*#__PURE__*/_interopDefaultLegacy(React);
@@ -22,43 +23,6 @@
   var ReactDOM__default = /*#__PURE__*/_interopDefaultLegacy(ReactDOM);
   var _typeof__default = /*#__PURE__*/_interopDefaultLegacy(_typeof);
   var _slicedToArray__default = /*#__PURE__*/_interopDefaultLegacy(_slicedToArray);
-
-  /**
-   * 生成一个UUID字符串
-   * @param {number} [num] 随机串数，默认为4
-   * @returns {string} 生成的UID
-   */
-
-  var UUID = function UUID() {
-    var num = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 4;
-
-    // 生成一串随机串
-    function S4() {
-      return ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
-    } // 先插入时间戳
-
-
-    var re = new Date().getTime().toString(16); // 循环加入随机串
-
-    for (var i = 0; i < num; i++) {
-      re += '-' + S4();
-    }
-
-    return re;
-  };
-  /**
-   * 一个输出定义是否可以连接到指定的输入定义
-   * @param {BluePrintOutputDefine} output 输出的定义
-   * @param {BluePrintInputDefine} input 输入的定义
-   */
-
-  var PointerCanLink = function PointerCanLink(output, input) {
-    if (output.type === input.type || output.type == null || input.type == null) {
-      return true;
-    }
-
-    return false;
-  };
 
   /** 蓝图钩子 */
   var BluePrintHooks = /*#__PURE__*/_createClass__default["default"](function BluePrintHooks() {
@@ -98,7 +62,11 @@
       return function () {
         if (isRemove || hooks[type] == null) return;
         isRemove = true;
-        hooks[type].splice(hooks.indexOf(hook), 1);
+        var index = hooks[type].indexOf(hook);
+
+        if (index >= 0) {
+          hooks[type].splice(index, 1);
+        }
       };
     };
     /**
@@ -224,6 +192,16 @@
         e.node = _this;
 
         _this.program.hooks.trigger(type, e);
+      }); // from改变触发onChange
+
+      this.hooks.add('node-forms-update', function (e) {
+        if (_this.define.inputs[e.key] && _this.define.inputs[e.key].onChange) {
+          _this.define.inputs[e.key].onChange({
+            node: _this,
+            key: e.key,
+            value: e.value
+          });
+        }
       }); // 如果有已保存的数据
 
       if (saveData) {
@@ -246,7 +224,7 @@
       key: "$define",
       value:
       /**
-       * 定义属性
+       * 定义属性,setDefine的别名，构造初始化时也需要调用
        * @param {NodeDefine} define
        * @returns
        */
@@ -261,7 +239,26 @@
     }, {
       key: "setDefine",
       value: function setDefine(define) {
-        this.define = define; // 输入处理
+        this._define = define || this._define;
+        this.define = define = ___default["default"].cloneDeep(this._define); // 重新构造输入
+
+        var inputs = {};
+
+        for (var i in define.inputs) {
+          if (typeof define.inputs[i] === 'function') {
+            // 如果是方法类型的输入则执行方法
+            define.inputs[i]({
+              node: this,
+              key: i,
+              inputs: inputs
+            });
+          } else {
+            // 否则直接使用输入
+            inputs[i] = define.inputs[i];
+          }
+        }
+
+        define.inputs = inputs; // 输入处理
 
         for (var i in define.inputs) {
           // 数组类型处理
@@ -278,7 +275,8 @@
           if (this.define.inputs[i]["default"] != null && this.attrs.forms[i] == null) {
             this.attrs.forms[i] = this.define.inputs[i]["default"];
           }
-        }
+        } // 触发定义改变消息
+
 
         this.hooks.triggerSync('node-update-define', {
           define: define
@@ -290,6 +288,7 @@
     }, {
       key: "getNodeName",
       value: function getNodeName() {
+        if (this.attrs.name) return this.attrs.name;
         if (this.define.name) return this.define.name;
 
         if (this.constructor.menu) {
@@ -303,7 +302,8 @@
 
     }, {
       key: "buildArgs",
-      value: function buildArgs(outputs) {
+      value: function buildArgs() {
+        var outputs = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : function () {};
         var args = {}; // 循环处理表单项
 
         for (var i in this.attrs.forms) {
@@ -325,6 +325,17 @@
           } else {
             // 单引用
             args[i] = outputs(link.uid, link.key);
+          }
+        } // 处理参数回调
+
+
+        for (var i in this.define.inputs) {
+          if (this.define.inputs[i].onBuild) {
+            this.define.inputs[i].onBuild({
+              node: this,
+              key: i,
+              args: args
+            });
           }
         }
 
@@ -391,7 +402,14 @@
         } else {
           // 直接设置关联项
           this.attrs.links[key] = link;
-        }
+        } // 触发添加关联项消息
+
+
+        this.hooks.trigger('node-set-link', {
+          node: this,
+          key: key,
+          link: link
+        });
       }
       /**
        * 移除一个关联项
@@ -406,7 +424,14 @@
           this.attrs.links[key].splice(index, 1);
         } else {
           delete this.attrs.links[key];
-        }
+        } // 触发添加关联项消息
+
+
+        this.hooks.trigger('node-delete-link', {
+          node: this,
+          key: key,
+          index: index
+        });
       }
       /** 序列化当前节点的数据 */
 
@@ -422,6 +447,20 @@
           saveData: re
         });
         return re;
+      }
+      /** 输出运行日志 */
+
+    }, {
+      key: "log",
+      value: function log() {
+        for (var _len = arguments.length, props = new Array(_len), _key = 0; _key < _len; _key++) {
+          props[_key] = arguments[_key];
+        }
+
+        this.hooks.triggerSync('node-log', {
+          node: this,
+          messages: props
+        });
       }
       /** @type {string} 节点所在菜单 */
 
@@ -463,6 +502,43 @@
 
     _defineProperty__default["default"](this, "links", {});
   });
+
+  /**
+   * 生成一个UUID字符串
+   * @param {number} [num] 随机串数，默认为4
+   * @returns {string} 生成的UID
+   */
+
+  var UUID = function UUID() {
+    var num = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 4;
+
+    // 生成一串随机串
+    function S4() {
+      return ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
+    } // 先插入时间戳
+
+
+    var re = new Date().getTime().toString(16); // 循环加入随机串
+
+    for (var i = 0; i < num; i++) {
+      re += '-' + S4();
+    }
+
+    return re;
+  };
+  /**
+   * 一个输出定义是否可以连接到指定的输入定义
+   * @param {BluePrintOutputDefine} output 输出的定义
+   * @param {BluePrintInputDefine} input 输入的定义
+   */
+
+  var PointerCanLink = function PointerCanLink(output, input) {
+    if (output.type === input.type || output.type == null || input.type == null) {
+      return true;
+    }
+
+    return false;
+  };
 
   /** 蓝图逻辑处理程序 */
 
@@ -616,7 +692,11 @@
 
 
         data.nodes.forEach(function (node) {
-          _this.addNode(new _this.modules[node.type](_this, node));
+          if (_this.modules[node.type]) {
+            _this.addNode(new _this.modules[node.type](_this, node));
+          } else {
+            console.warn("\u8F7D\u5165\u6570\u636E\u4E2D\u51FA\u73B0\u4E86\u672A\u5B9A\u4E49\u7EC4\u4EF6[".concat(node.type, "]"));
+          }
         });
       }
     }]);
@@ -697,6 +777,29 @@
         });
       }
     });
+    program.addType('select', {
+      name: '选项',
+      inputModule: function inputModule(val, cb, define) {
+        var args = [];
+
+        for (var i in define.args) {
+          args.push( /*#__PURE__*/React__default["default"].createElement("option", {
+            key: i,
+            value: i
+          }, define.args[i]));
+        }
+
+        return /*#__PURE__*/React__default["default"].createElement("select", {
+          className: Styles$4.input,
+          type: "text",
+          key: "select",
+          value: val,
+          onChange: function onChange(e) {
+            cb(e.target.value);
+          }
+        }, args);
+      }
+    });
     program.addType('color', {
       name: '颜色',
       inputModule: function inputModule(val, cb) {
@@ -711,7 +814,65 @@
         });
       }
     });
+    program.addType('map:string', {
+      name: '映射表（字符串）',
+      inputModule: function inputModule() {
+        var val = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+        var cb = arguments.length > 1 ? arguments[1] : undefined;
+        var list = [];
+
+        var addOne = function addOne(key, value) {
+          list.push( /*#__PURE__*/React__default["default"].createElement("div", {
+            key: key
+          }, /*#__PURE__*/React__default["default"].createElement("input", {
+            className: Styles$4.input,
+            value: key,
+            onChange: function onChange(e) {
+              val[e.target.value] = value;
+              cb(val);
+            }
+          }), /*#__PURE__*/React__default["default"].createElement("input", {
+            className: Styles$4.input,
+            value: value,
+            onChange: function onChange(e) {
+              val[key] = e.target.value;
+              cb(val);
+            }
+          }), /*#__PURE__*/React__default["default"].createElement("button", {
+            onClick: function onClick() {
+              delete val[key];
+              cb(val);
+            }
+          }, "x")));
+        };
+
+        for (var i in val) {
+          addOne(i, val[i]);
+        }
+
+        return /*#__PURE__*/React__default["default"].createElement("div", {
+          key: "map:text"
+        }, list, /*#__PURE__*/React__default["default"].createElement("button", {
+          key: "add-button",
+          onClick: function onClick() {
+            // 添加项
+            var id = 1;
+
+            while (val['t' + id] !== undefined) {
+              id++;
+            }
+
+            console.log(id);
+            val['t' + id] = '';
+            cb(val);
+          }
+        }, "\u6DFB\u52A0"));
+      }
+    });
   };
+
+  /** 蓝图任务 */
+
 
   var BluePrintWorker = /*#__PURE__*/function () {
     /**
@@ -738,24 +899,37 @@
     _createClass__default["default"](BluePrintWorker, [{
       key: "run",
       value:
-      /** 运行一次 */
+      /**
+       * 运行一次任务
+       * @param {RunProps} props 运行参数
+       * @returns
+       */
       function () {
         var _run = _asyncToGenerator__default["default"]( /*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee() {
           var _this = this;
 
-          var nodeList, i, node, args, output;
+          var props,
+              nodeList,
+              i,
+              node,
+              args,
+              dispose,
+              output,
+              _args = arguments;
           return _regeneratorRuntime__default["default"].wrap(function _callee$(_context) {
             while (1) {
               switch (_context.prev = _context.next) {
                 case 0:
+                  props = _args.length > 0 && _args[0] !== undefined ? _args[0] : {};
+
                   if (!this.running) {
-                    _context.next = 2;
+                    _context.next = 3;
                     break;
                   }
 
                   return _context.abrupt("return", console.warn('上一次任务正在运行中'));
 
-                case 2:
+                case 3:
                   // 进入运行状态
                   this.running = true;
                   /** 节点运行队列 */
@@ -764,9 +938,9 @@
 
                   i = 0;
 
-                case 5:
+                case 6:
                   if (!(i < nodeList.length)) {
-                    _context.next = 17;
+                    _context.next = 30;
                     break;
                   }
 
@@ -780,40 +954,66 @@
 
                     if (_this.program.nodesMap[uid].define.outputs[key]["default"]) return output;
                     return output[key];
+                  }); // 日志截取
+
+                  dispose = node.hooks.add('node-log', function (e) {
+                    return props.onLog && props.onLog(e);
+                  });
+                  _context.prev = 10;
+                  // 触发运行回调
+                  props.onNodeRun && props.onNodeRun({
+                    node: node
                   }); // 运行节点
 
                   output = node.run(args); // 异步兼容
 
                   if (!(output instanceof Promise)) {
-                    _context.next = 13;
+                    _context.next = 17;
                     break;
                   }
 
-                  _context.next = 12;
+                  _context.next = 16;
                   return output;
 
-                case 12:
+                case 16:
                   output = _context.sent;
 
-                case 13:
-                  // 更新输出
-                  this.outputs[node.uid] = output;
-
-                case 14:
-                  i++;
-                  _context.next = 5;
+                case 17:
+                  // 触发结束回调
+                  props.onNodeEnd && props.onNodeEnd({
+                    node: node,
+                    output: output
+                  });
+                  _context.next = 25;
                   break;
 
-                case 17:
+                case 20:
+                  _context.prev = 20;
+                  _context.t0 = _context["catch"](10);
+                  dispose();
+                  this.running = false;
+                  throw _context.t0;
+
+                case 25:
+                  dispose(); // 更新输出
+
+                  this.outputs[node.uid] = output;
+
+                case 27:
+                  i++;
+                  _context.next = 6;
+                  break;
+
+                case 30:
                   this.running = false;
                   return _context.abrupt("return", this.outputs[this.entryNode.uid]);
 
-                case 19:
+                case 32:
                 case "end":
                   return _context.stop();
               }
             }
-          }, _callee, this);
+          }, _callee, this, [[10, 20]]);
         }));
 
         function run() {
@@ -1258,33 +1458,24 @@
 
       for (var i in cfg) {
         config[i] = cfg[i];
-      } // 事件侦听
+      }
+      /** 按下起点 */
 
 
-      config.ref.current.addEventListener('contextmenu', /*#__PURE__*/function () {
+      var sp = null; // 事件侦听
+
+      config.ref.current.addEventListener('mousedown', /*#__PURE__*/function () {
         var _ref = _asyncToGenerator__default["default"]( /*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee2(e) {
-          var menuData;
           return _regeneratorRuntime__default["default"].wrap(function _callee2$(_context2) {
             while (1) {
               switch (_context2.prev = _context2.next) {
                 case 0:
-                  lastEvent = e;
-                  _context2.next = 3;
-                  return initMenu();
+                  sp = {
+                    x: e.x,
+                    y: e.y
+                  };
 
-                case 3:
-                  e.preventDefault();
-                  _context2.next = 6;
-                  return config.menuData();
-
-                case 6:
-                  menuData = _context2.sent;
-                  globalState.x = e.x;
-                  globalState.y = e.y;
-                  globalState.menus = menuData;
-                  globalState.subState = null;
-
-                case 11:
+                case 1:
                 case "end":
                   return _context2.stop();
               }
@@ -1295,8 +1486,62 @@
         return function (_x) {
           return _ref.apply(this, arguments);
         };
+      }()); // 事件侦听
+
+      config.ref.current.addEventListener('mouseup', /*#__PURE__*/function () {
+        var _ref2 = _asyncToGenerator__default["default"]( /*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee3(e) {
+          var menuData;
+          return _regeneratorRuntime__default["default"].wrap(function _callee3$(_context3) {
+            while (1) {
+              switch (_context3.prev = _context3.next) {
+                case 0:
+                  if (!(sp == null)) {
+                    _context3.next = 2;
+                    break;
+                  }
+
+                  return _context3.abrupt("return");
+
+                case 2:
+                  if (!(sp.x !== e.x || sp.y !== e.y)) {
+                    _context3.next = 5;
+                    break;
+                  }
+
+                  sp = null;
+                  return _context3.abrupt("return");
+
+                case 5:
+                  sp = null;
+                  lastEvent = e;
+                  _context3.next = 9;
+                  return initMenu();
+
+                case 9:
+                  e.preventDefault();
+                  _context3.next = 12;
+                  return config.menuData();
+
+                case 12:
+                  menuData = _context3.sent;
+                  globalState.x = e.x;
+                  globalState.y = e.y;
+                  globalState.menus = menuData;
+                  globalState.subState = null;
+
+                case 17:
+                case "end":
+                  return _context3.stop();
+              }
+            }
+          }, _callee3);
+        }));
+
+        return function (_x2) {
+          return _ref2.apply(this, arguments);
+        };
       }());
-    });
+    }, []);
   }; // =======================菜单组件的实现===========================
 
   /** @type {ContextMenuState} 全局公用菜单状态 */
@@ -1667,7 +1912,7 @@
     }
   }), _applyDecoratedDescriptor__default["default"](_class$2.prototype, "pushProgram", [mobx.action], Object.getOwnPropertyDescriptor(_class$2.prototype, "pushProgram"), _class$2.prototype), _applyDecoratedDescriptor__default["default"](_class$2.prototype, "popProgram", [mobx.action], Object.getOwnPropertyDescriptor(_class$2.prototype, "popProgram"), _class$2.prototype)), _class$2);
 
-  var _class$1, _descriptor$1, _descriptor2$1, _descriptor3$1, _descriptor4$1, _descriptor5$1, _descriptor6$1, _descriptor7$1, _descriptor8$1, _class3, _descriptor9$1, _descriptor10, _class5, _descriptor11, _descriptor12;
+  var _class$1, _descriptor$1, _descriptor2$1, _descriptor3$1, _descriptor4$1, _descriptor5$1, _descriptor6$1, _descriptor7$1, _descriptor8$1, _descriptor9$1, _class3, _descriptor10$1, _descriptor11, _descriptor12, _class5, _descriptor13, _descriptor14;
   /** 单个节点的状态 */
 
   var StoreNode = (_class$1 = /*#__PURE__*/function () {
@@ -1690,15 +1935,17 @@
 
       _initializerDefineProperty__default["default"](this, "y", _descriptor3$1, this);
 
-      _initializerDefineProperty__default["default"](this, "define", _descriptor4$1, this);
+      _initializerDefineProperty__default["default"](this, "isClose", _descriptor4$1, this);
 
-      _initializerDefineProperty__default["default"](this, "node", _descriptor5$1, this);
+      _initializerDefineProperty__default["default"](this, "define", _descriptor5$1, this);
 
-      _initializerDefineProperty__default["default"](this, "inputs", _descriptor6$1, this);
+      _initializerDefineProperty__default["default"](this, "node", _descriptor6$1, this);
 
-      _initializerDefineProperty__default["default"](this, "outputs", _descriptor7$1, this);
+      _initializerDefineProperty__default["default"](this, "inputs", _descriptor7$1, this);
 
-      _initializerDefineProperty__default["default"](this, "color", _descriptor8$1, this);
+      _initializerDefineProperty__default["default"](this, "outputs", _descriptor8$1, this);
+
+      _initializerDefineProperty__default["default"](this, "color", _descriptor9$1, this);
 
       this.map = map;
       this.node = node;
@@ -1706,11 +1953,28 @@
       this.x = node.attrs.x || 0;
       this.y = node.attrs.y || 0;
       this.define = node.define;
+      this.isClose = node.attrs.isClose;
       mobx.makeObservable(this); // 初始化处理
 
-      this.updateDefine();
+      this.updateDefine(); // 关联处理
+
+      var updateLink = function updateLink(e) {
+        if (e && e.key) {
+          _this.inputs[e.key].updateLinks();
+        } else {
+          for (var i in _this.inputs) {
+            _this.inputs[i].updateLinks();
+          }
+        }
+      };
+
+      node.hooks.add('node-set-link', updateLink);
+      node.hooks.add('node-delete-link', updateLink); // 更新定义处理
+
       node.hooks.add('node-update-define', function () {
         _this.updateDefine();
+
+        updateLink();
       });
     }
     /** @type {StoreMap} 节点所属的图 */
@@ -1743,10 +2007,20 @@
         var re = [];
 
         for (var i in this.inputs) {
-          re.push(this.inputs[i].getLinks());
+          re.push(this.inputs[i].links);
         }
 
         return re;
+      }
+      /**
+       * 设置是否收起
+       * @param {boolean} close 是否收起
+       */
+
+    }, {
+      key: "setClose",
+      value: function setClose(close) {
+        this.node.attrs.isClose = this.isClose = close;
       }
     }]);
 
@@ -1772,33 +2046,40 @@
     initializer: function initializer() {
       return 0;
     }
-  }), _descriptor4$1 = _applyDecoratedDescriptor__default["default"](_class$1.prototype, "define", [mobx.observable], {
+  }), _descriptor4$1 = _applyDecoratedDescriptor__default["default"](_class$1.prototype, "isClose", [mobx.observable], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function initializer() {
+      return false;
+    }
+  }), _descriptor5$1 = _applyDecoratedDescriptor__default["default"](_class$1.prototype, "define", [mobx.observable], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: function initializer() {
       return {};
     }
-  }), _descriptor5$1 = _applyDecoratedDescriptor__default["default"](_class$1.prototype, "node", [mobx.observable], {
+  }), _descriptor6$1 = _applyDecoratedDescriptor__default["default"](_class$1.prototype, "node", [mobx.observable], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: null
-  }), _descriptor6$1 = _applyDecoratedDescriptor__default["default"](_class$1.prototype, "inputs", [mobx.observable], {
+  }), _descriptor7$1 = _applyDecoratedDescriptor__default["default"](_class$1.prototype, "inputs", [mobx.observable], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: function initializer() {
       return {};
     }
-  }), _descriptor7$1 = _applyDecoratedDescriptor__default["default"](_class$1.prototype, "outputs", [mobx.observable], {
+  }), _descriptor8$1 = _applyDecoratedDescriptor__default["default"](_class$1.prototype, "outputs", [mobx.observable], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: function initializer() {
       return {};
     }
-  }), _descriptor8$1 = _applyDecoratedDescriptor__default["default"](_class$1.prototype, "color", [mobx.observable], {
+  }), _descriptor9$1 = _applyDecoratedDescriptor__default["default"](_class$1.prototype, "color", [mobx.observable], {
     configurable: true,
     enumerable: true,
     writable: true,
@@ -1820,14 +2101,17 @@
 
       _defineProperty__default["default"](this, "node", void 0);
 
-      _initializerDefineProperty__default["default"](this, "define", _descriptor9$1, this);
+      _initializerDefineProperty__default["default"](this, "define", _descriptor10$1, this);
 
-      _initializerDefineProperty__default["default"](this, "pos", _descriptor10, this);
+      _initializerDefineProperty__default["default"](this, "pos", _descriptor11, this);
+
+      _initializerDefineProperty__default["default"](this, "links", _descriptor12, this);
 
       mobx.makeObservable(this);
       this.index = index;
       this.node = node;
       this.define = node.define.inputs[index] || {};
+      this.updateLinks();
     }
     /** 下标 */
 
@@ -1851,51 +2135,59 @@
         }); // 增加关联
         // this.node.node.attrs.links[this.index] = { uid: pointer.node.uid, key: pointer.key };
       }
+      /** 当前的关联项集合 */
+
     }, {
-      key: "getLinks",
-      value: function getLinks() {
+      key: "updateLinks",
+      value:
+      /** 同步当前输入的关联项 */
+      function updateLinks() {
         var _this2 = this;
 
         var re = [];
         this.node.node.links(this.index).forEach(function (out, index) {
-          var node = _this2.node.map.nodes.find(function (node) {
-            return node.uid === out.uid;
-          });
+          re.push({
+            /** 起点获取方法 */
+            ps: function ps() {
+              var node = _this2.node.map.nodes.find(function (node) {
+                return node.uid === out.uid;
+              });
 
-          var ps = node.outputs[out.key].pos;
-          var pe = _this2.pos; // 计算唯一ID
+              if (node == null) return {
+                x: 0,
+                y: 0
+              };
+              return node.outputs[out.key].pos;
+            },
 
-          var key = _this2.node.uid + ':' + _this2.index + ':' + node.uid + ':' + node.outputs[out.key]; // 右键菜单回调
+            /** 终点位置 */
+            pe: _this2.pos,
 
-          var menuData = function menuData() {
-            return [['删除关联', function () {
-              delete _this2.node.node.deleteLink(_this2.index, index); // TODO:暂时使用这种方案刷新
+            /** 唯一key */
+            key: _this2.node.uid + ':' + _this2.index + ':' + out.uid + ':' + out.key,
+
+            /** 删除关联的处理方法 */
+            "delete": function _delete() {
+              _this2.node.node.deleteLink(_this2.index, index); // TODO:暂时使用这种方案刷新
+
 
               _this2.pos.x += 0.00001 * (Math.random() - 0.5);
-            }]];
-          }; // 加入关联数据
-
-
-          re.push({
-            ps: ps,
-            pe: pe,
-            key: key,
-            menuData: menuData
+            }
           });
         });
-        return re;
+        this.links = re;
       }
     }]);
 
     return StoreInput;
-  }(), (_descriptor9$1 = _applyDecoratedDescriptor__default["default"](_class3.prototype, "define", [mobx.observable], {
+  }(), (_descriptor10$1 = _applyDecoratedDescriptor__default["default"](_class3.prototype, "define", [mobx.observable], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: function initializer() {
       return {};
     }
-  }), _descriptor10 = _applyDecoratedDescriptor__default["default"](_class3.prototype, "pos", [mobx.observable], {
+  }), _descriptor11 = _applyDecoratedDescriptor__default["default"](_class3.prototype, "pos", [mobx.observable], {
     configurable: true,
     enumerable: true,
     writable: true,
@@ -1905,7 +2197,14 @@
         y: 0
       };
     }
-  }), _applyDecoratedDescriptor__default["default"](_class3.prototype, "linkToActionPointer", [mobx.action], Object.getOwnPropertyDescriptor(_class3.prototype, "linkToActionPointer"), _class3.prototype)), _class3);
+  }), _applyDecoratedDescriptor__default["default"](_class3.prototype, "linkToActionPointer", [mobx.action], Object.getOwnPropertyDescriptor(_class3.prototype, "linkToActionPointer"), _class3.prototype), _descriptor12 = _applyDecoratedDescriptor__default["default"](_class3.prototype, "links", [mobx.observable], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function initializer() {
+      return [];
+    }
+  })), _class3);
   /** 输出状态 */
 
   var StoreOutput = (_class5 = /*#__PURE__*/_createClass__default["default"](
@@ -1920,9 +2219,9 @@
 
     _defineProperty__default["default"](this, "node", void 0);
 
-    _initializerDefineProperty__default["default"](this, "define", _descriptor11, this);
+    _initializerDefineProperty__default["default"](this, "define", _descriptor13, this);
 
-    _initializerDefineProperty__default["default"](this, "pos", _descriptor12, this);
+    _initializerDefineProperty__default["default"](this, "pos", _descriptor14, this);
 
     mobx.makeObservable(this);
     this.index = index;
@@ -1930,14 +2229,14 @@
     this.define = node.define.outputs[index] || {};
   }
   /** 下标 */
-  ), (_descriptor11 = _applyDecoratedDescriptor__default["default"](_class5.prototype, "define", [mobx.observable], {
+  ), (_descriptor13 = _applyDecoratedDescriptor__default["default"](_class5.prototype, "define", [mobx.observable], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: function initializer() {
       return {};
     }
-  }), _descriptor12 = _applyDecoratedDescriptor__default["default"](_class5.prototype, "pos", [mobx.observable], {
+  }), _descriptor14 = _applyDecoratedDescriptor__default["default"](_class5.prototype, "pos", [mobx.observable], {
     configurable: true,
     enumerable: true,
     writable: true,
@@ -1949,7 +2248,7 @@
     }
   })), _class5);
 
-  var _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9;
+  var _class, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10;
   /** 一个拓扑图的状态 */
 
   var StoreMap = (_class = /*#__PURE__*/function () {
@@ -1962,25 +2261,25 @@
 
       _classCallCheck__default["default"](this, StoreMap);
 
-      _defineProperty__default["default"](this, "refOrigin", void 0);
+      _initializerDefineProperty__default["default"](this, "refOrigin", _descriptor, this);
 
-      _initializerDefineProperty__default["default"](this, "viewSize", _descriptor, this);
+      _initializerDefineProperty__default["default"](this, "viewSize", _descriptor2, this);
 
-      _initializerDefineProperty__default["default"](this, "viewOrigin", _descriptor2, this);
+      _initializerDefineProperty__default["default"](this, "viewOrigin", _descriptor3, this);
 
-      _initializerDefineProperty__default["default"](this, "mousePosition", _descriptor3, this);
+      _initializerDefineProperty__default["default"](this, "mousePosition", _descriptor4, this);
 
-      _initializerDefineProperty__default["default"](this, "container", _descriptor4, this);
+      _initializerDefineProperty__default["default"](this, "container", _descriptor5, this);
 
-      _initializerDefineProperty__default["default"](this, "nodes", _descriptor5, this);
+      _initializerDefineProperty__default["default"](this, "nodes", _descriptor6, this);
 
-      _initializerDefineProperty__default["default"](this, "program", _descriptor6, this);
+      _initializerDefineProperty__default["default"](this, "program", _descriptor7, this);
 
-      _initializerDefineProperty__default["default"](this, "position", _descriptor7, this);
+      _initializerDefineProperty__default["default"](this, "position", _descriptor8, this);
 
-      _initializerDefineProperty__default["default"](this, "scale", _descriptor8, this);
+      _initializerDefineProperty__default["default"](this, "scale", _descriptor9, this);
 
-      _initializerDefineProperty__default["default"](this, "actionPointer", _descriptor9, this);
+      _initializerDefineProperty__default["default"](this, "actionPointer", _descriptor10, this);
 
       this.program = program;
       this.container = container;
@@ -2100,7 +2399,12 @@
     }]);
 
     return StoreMap;
-  }(), (_descriptor = _applyDecoratedDescriptor__default["default"](_class.prototype, "viewSize", [mobx.observable], {
+  }(), (_descriptor = _applyDecoratedDescriptor__default["default"](_class.prototype, "refOrigin", [mobx.observable], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: null
+  }), _descriptor2 = _applyDecoratedDescriptor__default["default"](_class.prototype, "viewSize", [mobx.observable], {
     configurable: true,
     enumerable: true,
     writable: true,
@@ -2110,7 +2414,7 @@
         height: 0
       };
     }
-  }), _descriptor2 = _applyDecoratedDescriptor__default["default"](_class.prototype, "viewOrigin", [mobx.observable], {
+  }), _descriptor3 = _applyDecoratedDescriptor__default["default"](_class.prototype, "viewOrigin", [mobx.observable], {
     configurable: true,
     enumerable: true,
     writable: true,
@@ -2120,7 +2424,7 @@
         y: 0
       };
     }
-  }), _descriptor3 = _applyDecoratedDescriptor__default["default"](_class.prototype, "mousePosition", [mobx.observable], {
+  }), _descriptor4 = _applyDecoratedDescriptor__default["default"](_class.prototype, "mousePosition", [mobx.observable], {
     configurable: true,
     enumerable: true,
     writable: true,
@@ -2130,24 +2434,24 @@
         y: 0
       };
     }
-  }), _descriptor4 = _applyDecoratedDescriptor__default["default"](_class.prototype, "container", [mobx.observable], {
+  }), _descriptor5 = _applyDecoratedDescriptor__default["default"](_class.prototype, "container", [mobx.observable], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: null
-  }), _descriptor5 = _applyDecoratedDescriptor__default["default"](_class.prototype, "nodes", [mobx.observable], {
+  }), _descriptor6 = _applyDecoratedDescriptor__default["default"](_class.prototype, "nodes", [mobx.observable], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: function initializer() {
       return [];
     }
-  }), _descriptor6 = _applyDecoratedDescriptor__default["default"](_class.prototype, "program", [mobx.observable], {
+  }), _descriptor7 = _applyDecoratedDescriptor__default["default"](_class.prototype, "program", [mobx.observable], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: null
-  }), _descriptor7 = _applyDecoratedDescriptor__default["default"](_class.prototype, "position", [mobx.observable], {
+  }), _descriptor8 = _applyDecoratedDescriptor__default["default"](_class.prototype, "position", [mobx.observable], {
     configurable: true,
     enumerable: true,
     writable: true,
@@ -2157,14 +2461,14 @@
         y: 0
       };
     }
-  }), _descriptor8 = _applyDecoratedDescriptor__default["default"](_class.prototype, "scale", [mobx.observable], {
+  }), _descriptor9 = _applyDecoratedDescriptor__default["default"](_class.prototype, "scale", [mobx.observable], {
     configurable: true,
     enumerable: true,
     writable: true,
     initializer: function initializer() {
       return 1;
     }
-  }), _descriptor9 = _applyDecoratedDescriptor__default["default"](_class.prototype, "actionPointer", [mobx.observable], {
+  }), _descriptor10 = _applyDecoratedDescriptor__default["default"](_class.prototype, "actionPointer", [mobx.observable], {
     configurable: true,
     enumerable: true,
     writable: true,
@@ -2281,7 +2585,7 @@
 
   /**
    * 编辑器情况下需要使用的扩展逻辑
-   * @param {import("../../main").Program} program 蓝图程序实例
+   * @param {import("../../main").BluePrintProgram} program 蓝图程序实例
    */
 
   var PluginEditor = function PluginEditor(program) {
@@ -2295,6 +2599,16 @@
         callback: function callback(e) {
           state.position.x += e.x / state.scale;
           state.position.y += e.y / state.scale;
+        },
+        ref: refBG
+      });
+      useMouseDrag({
+        button: 2,
+        onmousedown: function onmousedown(e) {
+          console.log(e);
+        },
+        onmousemove: function onmousemove(e) {
+          console.log(e);
         },
         ref: refBG
       }); // 右键菜单功能
@@ -2312,7 +2626,8 @@
 
     program.hooks.add('node-render', function (_ref2) {
       var refTitle = _ref2.refTitle,
-          state = _ref2.state;
+          state = _ref2.state,
+          render = _ref2.render;
       // 鼠标是否有拖动
       var mouseMoveEnd = false; // 绑定鼠标拖动功能
 
@@ -2360,7 +2675,11 @@
       useContextMenu({
         ref: refTitle,
         menuData: function menuData() {
-          var menuData = [['删除节点', function () {
+          var menuData = [['修改名称', function () {
+            var name = prompt('请输入要修改的名称', state.node.getNodeName());
+            state.node.attrs.name = name;
+            render();
+          }], ['删除节点', function () {
             if (state.isSelect) {
               for (var i = state.map.nodes.length - 1; i >= 0; i--) {
                 if (state.map.nodes[i].isSelect) {
@@ -2401,13 +2720,13 @@
       if (type.inputModule) {
         expand.push(type.inputModule(node.attrs.forms[state.index], function (val) {
           node.attrs.forms[state.index] = val;
-          node.hooks.trigger("node-forms-update", {
+          node.hooks.trigger('node-forms-update', {
             node: node,
             key: state.index,
             value: val
           });
           render({});
-        }));
+        }, state.define));
       }
     });
   };
@@ -2470,8 +2789,8 @@
     state: null
   });
 
-  var css_248z$1 = ".ui-node_Node__HEg2f {\n  position: absolute;\n  background-color: #000;\n  border: 1px solid #fff;\n  font-size: 12px;\n  min-width: 120px;\n  border-radius: 4px;\n  border: 1px solid #000;\n  box-shadow: 0px 2px 4px 1px #000;\n}\n.ui-node_Node__HEg2f.ui-node_isSelect__MS0rP {\n  border-color: orange;\n}\n.ui-node_Node__HEg2f > .ui-node_title__ukFgS {\n  background-color: #17487a;\n  border-bottom: 1px solid #101010;\n  color: #ddd;\n  padding-left: 10px;\n  height: 24px;\n  line-height: 24px;\n  overflow: hidden;\n  border-radius: 4px 4px 0px 0px;\n}\n.ui-node_Node__HEg2f > .ui-node_group__fvZPw {\n  position: relative;\n  padding: 3px 0px;\n  background-color: #353535;\n}\n.ui-node_Input__CI9Vb {\n  color: #ddd;\n  position: relative;\n  padding-left: 10px;\n  margin: 2px 0px;\n  min-height: 20px;\n}\n.ui-node_Input__CI9Vb > .ui-node_pointer__QTe5J {\n  width: 12px;\n  height: 12px;\n  background-color: #555555;\n  border: 1px solid #000;\n  border-radius: 100%;\n  position: absolute;\n  left: -6px;\n  top: 3px;\n  cursor: pointer;\n}\n.ui-node_Input__CI9Vb > .ui-node_pointer__QTe5J:hover {\n  border: 1px solid orange;\n}\n.ui-node_Input__CI9Vb > .ui-node_pointer__QTe5J.ui-node_active__3zehd {\n  background-color: orange;\n}\n.ui-node_Output__S05DI {\n  color: #ddd;\n  position: relative;\n  padding-left: 10px;\n  margin: 2px 0px;\n  min-height: 20px;\n  text-align: right;\n  padding-right: 10px;\n  padding-left: 0px;\n}\n.ui-node_Output__S05DI > .ui-node_pointer__QTe5J {\n  width: 12px;\n  height: 12px;\n  background-color: #555555;\n  border: 1px solid #000;\n  border-radius: 100%;\n  position: absolute;\n  left: -6px;\n  top: 3px;\n  cursor: pointer;\n}\n.ui-node_Output__S05DI > .ui-node_pointer__QTe5J:hover {\n  border: 1px solid orange;\n}\n.ui-node_Output__S05DI > .ui-node_pointer__QTe5J.ui-node_active__3zehd {\n  background-color: orange;\n}\n.ui-node_Output__S05DI > .ui-node_pointer__QTe5J {\n  left: auto;\n  right: -6px;\n}\n";
-  var Styles$1 = {"Node":"ui-node_Node__HEg2f","isSelect":"ui-node_isSelect__MS0rP","title":"ui-node_title__ukFgS","group":"ui-node_group__fvZPw","Input":"ui-node_Input__CI9Vb","pointer":"ui-node_pointer__QTe5J","active":"ui-node_active__3zehd","Output":"ui-node_Output__S05DI"};
+  var css_248z$1 = ".ui-node_Node__HEg2f {\n  position: absolute;\n  background-color: #000;\n  border: 1px solid #fff;\n  font-size: 12px;\n  min-width: 120px;\n  border-radius: 4px;\n  border: 1px solid #000;\n  box-shadow: 0px 2px 4px 1px #000;\n}\n.ui-node_Node__HEg2f.ui-node_isSelect__MS0rP {\n  border-color: orange;\n}\n.ui-node_Node__HEg2f > .ui-node_title__ukFgS {\n  background-color: #17487a;\n  border-bottom: 1px solid #101010;\n  color: #ddd;\n  height: 24px;\n  line-height: 24px;\n  overflow: hidden;\n  border-radius: 4px 4px 0px 0px;\n}\n.ui-node_Node__HEg2f > .ui-node_title__ukFgS > .ui-node_switch__-bJn0 {\n  display: inline-block;\n  width: 20px;\n  text-align: center;\n}\n.ui-node_Node__HEg2f > .ui-node_group__fvZPw {\n  position: relative;\n  padding: 3px 0px;\n  background-color: #353535;\n}\n.ui-node_Input__CI9Vb {\n  color: #ddd;\n  position: relative;\n  padding-left: 10px;\n  padding-right: 10px;\n  margin: 2px 0px;\n  min-height: 20px;\n}\n.ui-node_Input__CI9Vb > .ui-node_pointer__QTe5J {\n  width: 12px;\n  height: 12px;\n  background-color: #555555;\n  border: 1px solid #000;\n  border-radius: 100%;\n  position: absolute;\n  left: -6px;\n  top: 3px;\n  cursor: pointer;\n}\n.ui-node_Input__CI9Vb > .ui-node_pointer__QTe5J:hover {\n  border: 1px solid orange;\n}\n.ui-node_Input__CI9Vb > .ui-node_pointer__QTe5J.ui-node_active__3zehd {\n  background-color: orange;\n}\n.ui-node_Input__CI9Vb > .ui-node_pointer__QTe5J.ui-node_hidden__OZHjJ {\n  display: none;\n}\n.ui-node_Output__S05DI {\n  color: #ddd;\n  position: relative;\n  padding-left: 10px;\n  margin: 2px 0px;\n  min-height: 20px;\n  text-align: right;\n  padding-right: 10px;\n  padding-left: 0px;\n}\n.ui-node_Output__S05DI > .ui-node_pointer__QTe5J {\n  width: 12px;\n  height: 12px;\n  background-color: #555555;\n  border: 1px solid #000;\n  border-radius: 100%;\n  position: absolute;\n  left: -6px;\n  top: 3px;\n  cursor: pointer;\n}\n.ui-node_Output__S05DI > .ui-node_pointer__QTe5J:hover {\n  border: 1px solid orange;\n}\n.ui-node_Output__S05DI > .ui-node_pointer__QTe5J.ui-node_active__3zehd {\n  background-color: orange;\n}\n.ui-node_Output__S05DI > .ui-node_pointer__QTe5J.ui-node_hidden__OZHjJ {\n  display: none;\n}\n.ui-node_Output__S05DI > .ui-node_pointer__QTe5J {\n  left: auto;\n  right: -6px;\n}\n";
+  var Styles$1 = {"Node":"ui-node_Node__HEg2f","isSelect":"ui-node_isSelect__MS0rP","title":"ui-node_title__ukFgS","switch":"ui-node_switch__-bJn0","group":"ui-node_group__fvZPw","Input":"ui-node_Input__CI9Vb","pointer":"ui-node_pointer__QTe5J","active":"ui-node_active__3zehd","hidden":"ui-node_hidden__OZHjJ","Output":"ui-node_Output__S05DI"};
   styleInject(css_248z$1);
 
   /**
@@ -2482,46 +2801,73 @@
   /** @type {{node:StoreNode}} */
   props) {
     // ref初始化
-    var ref = react_development.useRef();
-    var refTitle = react_development.useRef();
+    var ref = React.useRef();
+    var refTitle = React.useRef();
+
+    var _useState = React.useState(),
+        _useState2 = _slicedToArray__default["default"](_useState, 2),
+        _render = _useState2[1];
     /** 当前节点的状态机 */
+
 
     var state = props.node;
     /** 节点的额外渲染内容 */
 
-    var expand = []; // 触发节点渲染
+    var expand = []; // 输入节点收起渲染
+
+    var inputs = state.inputs;
+    React.useEffect(function () {
+      if (state.isClose) {
+        for (var key in inputs) {
+          inputs[key].pos.x = state.x;
+          inputs[key].pos.y = state.y + 12;
+        }
+      }
+    }); // 触发节点渲染
 
     state.node.hooks.triggerSync('node-render', {
       state: state,
       ref: ref,
       refTitle: refTitle,
       node: state.node,
-      expand: expand
+      expand: expand,
+      render: function render() {
+        _render({});
+      }
     });
     return mobxReact.useObserver(function () {
       /** 节点样式 */
       var style = {
         left: state.x + 'px',
-        top: state.y + 'px'
-      }; // 触发节点渲染Observer
+        top: state.y + 'px',
+        zIndex: state.isClose ? 0 : 1
+      }; // 选中的面板层级增加
+
+      if (state.isSelect) {
+        style.zIndex += 2;
+      } // 触发节点渲染Observer
+
 
       state.node.hooks.triggerSync('node-render-observer', {
         state: state,
         ref: ref,
         refTitle: refTitle,
         node: state.node,
-        expand: expand
+        expand: expand,
+        render: function render() {
+          _render({});
+        }
       }); // 输入节点
 
-      var inputs = state.inputs;
       var inputDoms = [];
 
-      for (var key in inputs) {
-        inputs[key];
-        inputDoms.push( /*#__PURE__*/React__default["default"].createElement(Input, {
-          store: inputs[key],
-          key: key
-        }));
+      if (!state.isClose) {
+        for (var key in inputs) {
+          inputDoms.push( /*#__PURE__*/React__default["default"].createElement(Input, {
+            store: inputs[key],
+            key: key
+          }));
+        }
       } // 输出节点
 
 
@@ -2556,7 +2902,12 @@
           backgroundColor: state.color
         },
         className: Styles$1.title
-      }, state.node.getNodeName()), /*#__PURE__*/React__default["default"].createElement("div", {
+      }, /*#__PURE__*/React__default["default"].createElement("div", {
+        className: Styles$1["switch"],
+        onClick: function onClick() {
+          state.setClose(!state.isClose);
+        }
+      }, state.isClose ? '+' : '-'), state.node.getNodeName()), /*#__PURE__*/React__default["default"].createElement("div", {
         className: Styles$1.group
       }, expand, inputDoms, outputDoms)));
     });
@@ -2572,13 +2923,12 @@
     var state = React.useContext(MapContext).state;
     var store = props.store;
 
-    var _useState = React.useState(),
-        _useState2 = _slicedToArray__default["default"](_useState, 2);
-        _useState2[0];
-        var render = _useState2[1];
+    var _useState3 = React.useState(),
+        _useState4 = _slicedToArray__default["default"](_useState3, 2),
+        render = _useState4[1];
 
-    var refPointer = react_development.useRef();
-    var ref = react_development.useRef();
+    var refPointer = React.useRef();
+    var ref = React.useRef();
     /** 额外渲染内容 */
 
     var expand = []; // 触发节点渲染
@@ -2596,10 +2946,13 @@
       var pos = state.getDomViewPosition(refPointer.current);
       pos.x += 6;
       pos.y += 6;
-      store.pos = pos;
+      store.pos.x = pos.x;
+      store.pos.y = pos.y;
     });
     return mobxReact.useObserver(function () {
+      state.refOrigin;
       /** 连接点样式 */
+
       var pointerClass = [Styles$1.pointer];
 
       if (state.actionPointer && state.actionPointer.type === 'output') {
@@ -2608,6 +2961,10 @@
         if (output && PointerCanLink(output, store.define)) {
           pointerClass.push(Styles$1.active);
         }
+      }
+
+      if (store.define.disable_link) {
+        pointerClass.push(Styles$1.hidden);
       }
 
       return /*#__PURE__*/React__default["default"].createElement("div", {
@@ -2635,15 +2992,17 @@
     var state = React.useContext(MapContext).state;
     var node = React.useContext(NodeContext).state;
     var store = props.store;
-    var refPointer = react_development.useRef(); // 更新连接点位置
+    var refPointer = React.useRef(); // 更新连接点位置
 
     React.useEffect(function () {
       var pos = state.getDomViewPosition(refPointer.current);
       pos.x += 6;
       pos.y += 6;
-      store.pos = pos;
+      store.pos.x = pos.x;
+      store.pos.y = pos.y;
     });
     return mobxReact.useObserver(function () {
+      state.refOrigin;
       return /*#__PURE__*/React__default["default"].createElement("div", {
         className: Styles$1.Output
       }, /*#__PURE__*/React__default["default"].createElement("div", {
@@ -2664,7 +3023,7 @@
     });
   };
 
-  var css_248z = ".ui-map_Map__dzNDK {\n  user-select: none;\n  width: 100%;\n  height: 100%;\n  background-color: #1d1d1d;\n  background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 2.5%, rgba(0, 0, 0, 0) 2.5%), linear-gradient(rgba(255, 255, 255, 0.1) 2.5%, rgba(0, 0, 0, 0) 2.5%);\n  background-size: 40px 40px;\n  position: relative;\n  overflow: hidden;\n}\n.ui-map_Map__dzNDK * {\n  box-sizing: border-box;\n}\n.ui-map_Map__dzNDK > .ui-map_bg__yT5Oa {\n  position: absolute;\n  left: 0px;\n  top: 0px;\n  height: 100%;\n  width: 100%;\n}\n.ui-map_Map__dzNDK > .ui-map_nodes__wVazn {\n  position: absolute;\n  left: 50%;\n  top: 50%;\n}\n.ui-map_Link__ud8XQ {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  pointer-events: none;\n  left: 0px;\n  top: 0px;\n}\n.ui-map_Link__ud8XQ > svg {\n  width: 100%;\n  height: 100%;\n}\n.ui-map_Link__ud8XQ > svg > g {\n  transform: translate3d(50%, 50%, 0px);\n}\n.ui-map_Link__ud8XQ > svg > g > g > path {\n  fill: none;\n}\n.ui-map_Link__ud8XQ > svg > g > g > path.ui-map_line__jmoIs {\n  stroke: orange;\n  stroke-width: 3px;\n}\n.ui-map_Link__ud8XQ > svg > g > g > path.ui-map_linebg__CFMDV {\n  pointer-events: all;\n  stroke: #000;\n  stroke-width: 6px;\n}\n";
+  var css_248z = ".ui-map_Map__dzNDK {\n  user-select: none;\n  width: 100%;\n  height: 100%;\n  background-color: #1d1d1d;\n  background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 3.5%, rgba(0, 0, 0, 0) 3.5%), linear-gradient(rgba(255, 255, 255, 0.1) 3.5%, rgba(0, 0, 0, 0) 3.5%);\n  background-size: 40px 40px;\n  position: relative;\n  overflow: hidden;\n}\n.ui-map_Map__dzNDK * {\n  box-sizing: border-box;\n}\n.ui-map_Map__dzNDK > .ui-map_bg__yT5Oa {\n  position: absolute;\n  left: 0px;\n  top: 0px;\n  height: 100%;\n  width: 100%;\n}\n.ui-map_Map__dzNDK > .ui-map_nodes__wVazn {\n  position: absolute;\n  left: 50%;\n  top: 50%;\n  z-index: 0;\n}\n.ui-map_Link__ud8XQ {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  pointer-events: none;\n  left: 0px;\n  top: 0px;\n}\n.ui-map_Link__ud8XQ > svg {\n  width: 100%;\n  height: 100%;\n}\n.ui-map_Link__ud8XQ > svg > g {\n  transform: translate3d(50%, 50%, 0px);\n}\n.ui-map_Link__ud8XQ > svg > g > g > path {\n  fill: none;\n}\n.ui-map_Link__ud8XQ > svg > g > g > path.ui-map_line__jmoIs {\n  stroke: orange;\n  stroke-width: 3px;\n}\n.ui-map_Link__ud8XQ > svg > g > g > path.ui-map_linebg__CFMDV {\n  pointer-events: all;\n  stroke: #000;\n  stroke-width: 6px;\n}\n";
   var Styles = {"Map":"ui-map_Map__dzNDK","bg":"ui-map_bg__yT5Oa","nodes":"ui-map_nodes__wVazn","Link":"ui-map_Link__ud8XQ","line":"ui-map_line__jmoIs","linebg":"ui-map_linebg__CFMDV"};
   styleInject(css_248z);
 
@@ -2690,7 +3049,14 @@
     var refNodes = React.useRef();
     /** 扩展渲染的节点 */
 
-    var expand = []; // 触发渲染钩子
+    var expand = [];
+
+    var _useState = React.useState({
+      state: state
+    }),
+        _useState2 = _slicedToArray__default["default"](_useState, 1),
+        mapData = _useState2[0]; // 触发渲染钩子
+
 
     state.program.hooks.triggerSync('map-render', {
       ref: ref,
@@ -2727,13 +3093,15 @@
         });
       });
       return /*#__PURE__*/React__default["default"].createElement(MapContext.Provider, {
-        value: {
-          state: state
-        }
+        value: mapData
       }, /*#__PURE__*/React__default["default"].createElement("div", {
         ref: ref,
+        onContextMenu: function onContextMenu(e) {
+          e.preventDefault();
+        },
         style: {
-          backgroundPosition: "".concat(state.position.x * state.scale, "px ").concat(state.position.y * state.scale, "px")
+          backgroundPosition: "".concat(state.position.x * state.scale + state.viewSize.width / 2, "px ").concat(state.position.y * state.scale + state.viewSize.height / 2, "px"),
+          backgroundSize: "".concat(40 * state.scale, "px ").concat(40 * state.scale, "px")
         },
         className: Styles.Map
       }, /*#__PURE__*/React__default["default"].createElement("div", {
@@ -2759,12 +3127,11 @@
       var lines = state.nodes.map(function (node) {
         return node.getLinks();
       }).flat(5).map(function (v) {
-        v.pe.x;
         return /*#__PURE__*/React__default["default"].createElement(Line, {
           key: v.key,
-          ps: v.ps,
+          ps: v.ps(),
           pe: v.pe,
-          menuData: v.menuData
+          "delete": v["delete"]
         });
       }); // 加入当前关联操作
 
@@ -2796,36 +3163,23 @@
    */
 
   var Line = /*#__PURE__*/React.memo(function (props) {
+    /** 获取图状态 */
     var state = React.useContext(MapContext).state;
+    /** 交互用ref */
 
-    var p1 = _objectSpread({}, props.ps);
-
-    var p2 = _objectSpread({}, props.pe);
-
-    p1.x *= state.scale;
-    p1.y *= state.scale;
-    p2.x *= state.scale;
-    p2.y *= state.scale;
-    var c = {
-      x: (p2.x + p1.x) / 2,
-      y: (p2.y + p1.y) / 2
-    };
     var ref = React.useRef(); // 右键菜单功能
 
     useContextMenu({
       ref: ref,
       menuData: function () {
         var _menuData = _asyncToGenerator__default["default"]( /*#__PURE__*/_regeneratorRuntime__default["default"].mark(function _callee() {
-          var menu;
           return _regeneratorRuntime__default["default"].wrap(function _callee$(_context) {
             while (1) {
               switch (_context.prev = _context.next) {
                 case 0:
-                  menu = [];
-                  if (props.menuData) menu = props.menuData() || [];
-                  return _context.abrupt("return", menu);
+                  return _context.abrupt("return", [['删除关联', props["delete"]]]);
 
-                case 3:
+                case 1:
                 case "end":
                   return _context.stop();
               }
@@ -2840,10 +3194,24 @@
         return menuData;
       }()
     });
-    /** 曲线偏移量 */
-
-    var offset = 40 * state.scale;
     return mobxReact.useObserver(function () {
+      state.refOrigin;
+
+      var p1 = _objectSpread({}, props.ps);
+
+      var p2 = _objectSpread({}, props.pe);
+
+      p1.x *= state.scale;
+      p1.y *= state.scale;
+      p2.x *= state.scale;
+      p2.y *= state.scale;
+      var c = {
+        x: (p2.x + p1.x) / 2,
+        y: (p2.y + p1.y) / 2
+      };
+      /** 曲线偏移量 */
+
+      var offset = 40 * state.scale;
       return /*#__PURE__*/React__default["default"].createElement(React__default["default"].Fragment, null, /*#__PURE__*/React__default["default"].createElement("path", {
         ref: ref,
         className: Styles.linebg,

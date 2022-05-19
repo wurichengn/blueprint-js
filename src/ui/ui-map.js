@@ -1,5 +1,5 @@
 import { configure } from 'mobx';
-import { useLocalObservable, useObserver } from 'mobx-react';
+import { observer, useLocalObservable, useObserver } from 'mobx-react';
 import { memo, useCallback, useRef, useState } from 'react';
 import { useContext, useEffect } from 'react';
 import { useContextMenu } from './hooks/hook-contextmenu';
@@ -76,8 +76,8 @@ var UILinks = memo(function() {
 
   return useObserver(() => {
     // 关联内容
-    var lines = state.nodes.map(node => node.getLinks()).flat(5).map(v => {
-      return <Line key={v.key} ps={v.ps()} pe={v.pe} delete={v.delete}/>;
+    var lines = state.nodes.map(node => node.getLinks()).flat(5).map(link => {
+      return <Line key={link.key} link={link}/>;
     });
 
     // 加入当前关联操作
@@ -97,34 +97,34 @@ var UILinks = memo(function() {
 
 /**
  * 单根关联线渲染
- * @param {{ps:{x:number,y:number},pe:{x:number,y:number}}} props 关联线参数
+ * @param {{link:*}} props 关联线参数
  * @returns
  */
-var Line = memo((props) => {
+var Line = memo(observer((props) => {
   /** 获取图状态 */
   var state = useContext(MapContext).state;
   /** 交互用ref */
   var ref = useRef();
   // 右键菜单功能
   useContextMenu({ ref, menuData: async() => {
-    return [['删除关联', props.delete]];
+    return [['删除关联', props.link.delete]];
   } });
 
-  return useObserver(() => {
-    state.refOrigin;
-    var p1 = { ...props.ps };
-    var p2 = { ...props.pe };
-    p1.x *= state.scale;
-    p1.y *= state.scale;
-    p2.x *= state.scale;
-    p2.y *= state.scale;
-    var c = { x: (p2.x + p1.x) / 2, y: (p2.y + p1.y) / 2 };
-    /** 曲线偏移量 */
-    var offset = 40 * state.scale;
+  state.viewSize.width;
+  state.viewSize.height;
+  if (props.link.ps() == null) return <></>;
+  var p1 = { ...props.link.ps() };
+  var p2 = { ...props.link.pe() };
+  p1.x *= state.scale;
+  p1.y *= state.scale;
+  p2.x *= state.scale;
+  p2.y *= state.scale;
+  var c = { x: (p2.x + p1.x) / 2, y: (p2.y + p1.y) / 2 };
+  /** 曲线偏移量 */
+  var offset = 40 * state.scale;
 
-    return <>
-      <path ref={ref} className={Styles.linebg} d={'M' + p1.x + ',' + p1.y + ' Q' + (p1.x + offset) + ',' + p1.y + ',' + c.x + ',' + c.y + ' T' + p2.x + ',' + p2.y} />
-      <path className={Styles.line} d={'M' + p1.x + ',' + p1.y + ' Q' + (p1.x + offset) + ',' + p1.y + ',' + c.x + ',' + c.y + ' T' + p2.x + ',' + p2.y} />
-    </>;
-  });
-});
+  return <>
+    <path ref={ref} className={Styles.linebg} d={'M' + p1.x + ',' + p1.y + ' Q' + (p1.x + offset) + ',' + p1.y + ',' + c.x + ',' + c.y + ' T' + p2.x + ',' + p2.y} />
+    <path className={Styles.line} d={'M' + p1.x + ',' + p1.y + ' Q' + (p1.x + offset) + ',' + p1.y + ',' + c.x + ',' + c.y + ' T' + p2.x + ',' + p2.y} />
+  </>;
+}));

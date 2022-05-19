@@ -35,7 +35,10 @@ export class BluePrintHooks {
       return function() {
         if (isRemove || hooks[type] == null) return;
         isRemove = true;
-        hooks[type].splice(hooks.indexOf(hook), 1);
+        var index = hooks[type].indexOf(hook);
+        if (index >= 0) {
+          hooks[type].splice(index, 1);
+        }
       };
     };
 
