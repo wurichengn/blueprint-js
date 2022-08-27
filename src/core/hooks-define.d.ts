@@ -48,6 +48,8 @@ declare global {
       ref:Ref<HTMLDivElement>,
       /**节点标题的ref */
       refTitle:Ref<HTMLDivElement>,
+      /** 标题的扩展渲染内容集合 */
+      titleExpand:[],
       /**图的扩展渲染内容集合 */
       expand:[],
       /**触发组件重渲染 */
@@ -64,6 +66,8 @@ declare global {
       ref:Ref<HTMLDivElement>,
       /**节点标题的ref */
       refTitle:Ref<HTMLDivElement>,
+      /** 标题的扩展渲染内容集合 */
+      titleExpand:[],
       /**图的扩展渲染内容集合 */
       expand:[],
       /**触发组件重渲染 */

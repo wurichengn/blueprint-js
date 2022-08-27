@@ -23,6 +23,8 @@ export var useContextMenu = function(cfg) {
     var config = new useContextMenuConfig();
     for (var i in cfg)config[i] = cfg[i];
 
+    if (config.ref.current == null) return;
+
     /** 按下起点 */
     var sp = null;
 
@@ -48,7 +50,7 @@ export var useContextMenu = function(cfg) {
       globalState.menus = menuData;
       globalState.subState = null;
     });
-  }, []);
+  }, [cfg.ref.current]);
 };
 
 // =======================菜单组件的实现===========================

@@ -56,12 +56,19 @@ export var UIMap = (props) => {
       return <UINode node={node} key={node.uid} />;
     });
 
+    /** 选择框 */
+    var selectBox;
+    if (state.selectBox) {
+      selectBox = <div className={Styles.selectBox} style={state.selectRange} />;
+    }
+
     return <MapContext.Provider value={mapData}>
       <div ref={ref} onContextMenu={e => { e.preventDefault(); }} style={{
         backgroundPosition: `${state.position.x * state.scale + state.viewSize.width / 2}px ${state.position.y * state.scale + state.viewSize.height / 2}px`,
         backgroundSize: `${40 * state.scale}px ${40 * state.scale}px`
       }} className={Styles.Map}>
         <div ref={refBG} className={Styles.bg} />
+        {selectBox}
         <UILinks />
         <div ref={refNodes} style={{ marginLeft: state.position.x + 'px', marginTop: state.position.y + 'px', zoom: state.scale }} className={Styles.nodes}>{nodes}</div>
         {expand}
@@ -112,9 +119,15 @@ var Line = memo(observer((props) => {
 
   state.viewSize.width;
   state.viewSize.height;
-  if (props.link.ps() == null) return <></>;
-  var p1 = { ...props.link.ps() };
-  var p2 = { ...props.link.pe() };
+  var p1, p2;
+  if (props.ps && props.pe) {
+    p1 = { ...props.ps };
+    p2 = { ...props.pe };
+  } else {
+    if (props.link == null || props.link.ps() == null) return <></>;
+    p1 = { ...props.link.ps() };
+    p2 = { ...props.link.pe() };
+  }
   p1.x *= state.scale;
   p1.y *= state.scale;
   p2.x *= state.scale;

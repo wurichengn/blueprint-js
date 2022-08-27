@@ -37,6 +37,7 @@ export var useMouseDrag = function(cfg = {}) {
     /** 当前的状态是否按下 */
     var isd = false;
     var lx, ly;
+    var state = {};
 
     // 鼠标按下
     ref.current.addEventListener('mousedown', e => {

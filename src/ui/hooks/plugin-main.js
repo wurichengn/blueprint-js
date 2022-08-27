@@ -15,11 +15,31 @@ export var PluginEditor = (program) => {
       state.position.x += e.x / state.scale;
       state.position.y += e.y / state.scale;
     }, ref: refBG });
+    // 右键多选
     useMouseDrag({
       button: 2,
       onmousedown: e => {
+        var pos = state.mouse2view(e);
+        state.selectBox = { x1: pos.x, x2: pos.x, y1: pos.y, y2: pos.y };
       },
       onmousemove: e => {
+        var pos = state.mouse2view(e);
+        state.selectBox.x2 = pos.x;
+        state.selectBox.y2 = pos.y;
+      },
+      onmouseup: e => {
+        var sx = Math.min(state.selectBox.x1, state.selectBox.x2);
+        var sy = Math.min(state.selectBox.y1, state.selectBox.y2);
+        var ex = Math.max(state.selectBox.x1, state.selectBox.x2);
+        var ey = Math.max(state.selectBox.y1, state.selectBox.y2);
+        var mode = 0;
+        if (e.ctrlKey) { mode = 1; }
+        if (e.shiftKey) { mode = 2; }
+        var nodes = state.nodes.filter(node => {
+          return node.x > sx && node.x < ex && node.y > sy && node.y < ey;
+        });
+        state.selectNode(nodes, mode);
+        state.selectBox = null;
       },
       ref: refBG
     });
@@ -82,19 +102,32 @@ export var PluginEditor = (program) => {
         }],
         ['删除节点', () => {
           if (state.isSelect) {
-            for (var i = state.map.nodes.length - 1; i >= 0; i--) {
-              if (state.map.nodes[i].isSelect) {
-                state.node.program.removeNode(state.map.nodes[i].node);
-              }
-            }
+            state.map.removeSelectNode();
           } else {
             state.node.program.removeNode(state.node);
+          }
+        }],
+        ['复制节点', () => {
+          if (state.isSelect) {
+            state.map.copyNodes(state.map.nodes.filter(node => node.isSelect));
+          } else {
+            state.map.copyNodes([state]);
           }
         }]
       ];
       state.node.hooks.trigger('node-contextmenu', { node: state.node, menuData: menuData });
       return menuData;
     } });
+  });
+
+  /** 图右键菜单扩展 */
+  program.hooks.add('map-contextmenu', (e) => {
+    if (e.state.clipboard != null) {
+      // 粘贴节点
+      e.menuData.push(['粘贴节点', async() => {
+        e.state.pasteNodes();
+      }]);
+    }
   });
 };
 

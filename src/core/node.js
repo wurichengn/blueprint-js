@@ -13,10 +13,14 @@ export class BluePrintNode {
   constructor(program, saveData) {
     this.program = program;
     // 钩子转发
-    this.hooks.all((e, type) => {
+    this.hooks.all((e, type, isSync) => {
       e = e || {};
       e.node = this;
-      this.program.hooks.trigger(type, e);
+      if (isSync) {
+        this.program.hooks.triggerSync(type, e);
+      } else {
+        this.program.hooks.trigger(type, e);
+      }
     });
     // from改变触发onChange
     this.hooks.add('node-forms-update', (e) => {

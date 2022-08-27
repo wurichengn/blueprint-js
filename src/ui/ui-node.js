@@ -21,6 +21,8 @@ export var UINode = memo(function(/** @type {{node:StoreNode}} */props) {
   var state = props.node;
   /** 节点的额外渲染内容 */
   var expand = [];
+  /** 标题的额外渲染内容 */
+  var titleExpand = [];
 
   // 输入节点收起渲染
   var inputs = state.inputs;
@@ -34,7 +36,7 @@ export var UINode = memo(function(/** @type {{node:StoreNode}} */props) {
   });
 
   // 触发节点渲染
-  state.node.hooks.triggerSync('node-render', { state: state, ref, refTitle, node: state.node, expand, render: () => { render({}); } });
+  state.node.hooks.triggerSync('node-render', { state: state, ref, refTitle, node: state.node, titleExpand, expand, render: () => { render({}); } });
 
   return useObserver(() => {
     /** 节点样式 */
@@ -50,7 +52,7 @@ export var UINode = memo(function(/** @type {{node:StoreNode}} */props) {
     }
 
     // 触发节点渲染Observer
-    state.node.hooks.triggerSync('node-render-observer', { state: state, ref, refTitle, node: state.node, expand, render: () => { render({}); } });
+    state.node.hooks.triggerSync('node-render-observer', { state: state, ref, refTitle, node: state.node, titleExpand, expand, render: () => { render({}); } });
 
     // 输入节点
     var inputDoms = [];
@@ -77,7 +79,8 @@ export var UINode = memo(function(/** @type {{node:StoreNode}} */props) {
       <div style={style} ref={ref} className={classList.join(' ')}>
         <div ref={refTitle} style={{ backgroundColor: state.color }} className={Styles.title}>
           <div className={Styles.switch} onClick={() => { state.setClose(!state.isClose); }}>{state.isClose ? '+' : '-'}</div>
-          {state.node.getNodeName()}
+          <a className={Styles.name}>{state.node.getNodeName()}</a>
+          {titleExpand}
         </div>
         <div className={Styles.group} >{expand}{inputDoms}{outputDoms}</div>
       </div>

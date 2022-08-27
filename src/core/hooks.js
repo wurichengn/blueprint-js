@@ -52,11 +52,11 @@ export class BluePrintHooks {
       var list = hooks[type];
       // 触发指定类型回调
       for (var i in list) {
-        await list[i][1](args);
+        await list[i][1](args, type, false);
       }
       // 触发全侦听回调
       for (var i in alls) {
-        await alls[i](args, type);
+        await alls[i](args, type, false);
       }
       return args;
     };
@@ -71,11 +71,11 @@ export class BluePrintHooks {
       var list = hooks[type];
       // 触发指定类型回调
       for (var i in list) {
-        list[i][1](args);
+        list[i][1](args, type, true);
       }
       // 触发全侦听回调
       for (var i in alls) {
-        alls[i](args, type);
+        alls[i](args, type, true);
       }
       return args;
     };
